@@ -1,0 +1,1189 @@
+{
+  "schema_version": 1,
+  "data_version": "2026-11-04.1",
+  "reviewed_on": "2026-11-04",
+  "description": "Radio Array Explorer reference catalogue. Edit this file, not generated exports.",
+  "methods": {
+    "minimum_imaging_stations": 3,
+    "station_coordinates": "Rounded planning coordinates; no local horizon masks or observatory scheduling limits.",
+    "visibility": "Continuous common window above elevation threshold; repeating sidereal-day geometry, not a dated schedule.",
+    "sensitivity": "Representative band reference; thermal-equivalent t^-1/2 scaling only; calibration/confusion not modelled."
+  },
+  "facilities": [
+    {
+      "id": "vlba",
+      "name": "VLBA",
+      "category": "real",
+      "antenna_count": 10,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "st-croix",
+          "name": "St Croix",
+          "latitude_deg": 17.7566,
+          "longitude_deg": -64.5836
+        },
+        {
+          "id": "hancock",
+          "name": "Hancock",
+          "latitude_deg": 42.9336,
+          "longitude_deg": -71.9866
+        },
+        {
+          "id": "north-liberty",
+          "name": "North Liberty",
+          "latitude_deg": 41.7714,
+          "longitude_deg": -91.5741
+        },
+        {
+          "id": "fort-davis",
+          "name": "Fort Davis",
+          "latitude_deg": 30.635,
+          "longitude_deg": -103.9448
+        },
+        {
+          "id": "los-alamos",
+          "name": "Los Alamos",
+          "latitude_deg": 35.7751,
+          "longitude_deg": -106.2456
+        },
+        {
+          "id": "pie-town",
+          "name": "Pie Town",
+          "latitude_deg": 34.301,
+          "longitude_deg": -108.1192
+        },
+        {
+          "id": "kitt-peak",
+          "name": "Kitt Peak",
+          "latitude_deg": 31.9563,
+          "longitude_deg": -111.6124
+        },
+        {
+          "id": "owens-valley",
+          "name": "Owens Valley",
+          "latitude_deg": 37.2317,
+          "longitude_deg": -118.277
+        },
+        {
+          "id": "brewster",
+          "name": "Brewster",
+          "latitude_deg": 48.1312,
+          "longitude_deg": -119.6833
+        },
+        {
+          "id": "mauna-kea",
+          "name": "Mauna Kea",
+          "latitude_deg": 19.8014,
+          "longitude_deg": -155.4555
+        }
+      ],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.5 GHz",
+          "frequency_GHz": 1.5,
+          "resolution_arcsec": 0.004
+        },
+        {
+          "id": "1",
+          "label": "5 GHz",
+          "frequency_GHz": 5,
+          "resolution_arcsec": 0.0012
+        },
+        {
+          "id": "2",
+          "label": "8.4 GHz",
+          "frequency_GHz": 8.4,
+          "resolution_arcsec": 0.0008
+        },
+        {
+          "id": "3",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 0.0003
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 28.0,
+        "reference": "1.4 GHz",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://science.nrao.edu/facilities/vlba/docs/manuals/oss/bands-perf"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Illustrative station roster, not a guaranteed band-specific or semester-specific observing allocation.",
+        "Subset resolution is scaled by physical baseline extent; projection, weighting and uv coverage are not simulated."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "eavn-2026b-2027a",
+      "name": "EAVN (2026B/2027A)",
+      "category": "real",
+      "antenna_count": 13,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "vera-mizusawa",
+          "name": "VERA Mizusawa",
+          "latitude_deg": 39.134,
+          "longitude_deg": 141.133
+        },
+        {
+          "id": "vera-iriki",
+          "name": "VERA Iriki",
+          "latitude_deg": 31.748,
+          "longitude_deg": 130.44
+        },
+        {
+          "id": "vera-ogasawara",
+          "name": "VERA Ogasawara",
+          "latitude_deg": 27.092,
+          "longitude_deg": 142.217
+        },
+        {
+          "id": "vera-ishigakijima",
+          "name": "VERA Ishigakijima",
+          "latitude_deg": 24.412,
+          "longitude_deg": 124.171
+        },
+        {
+          "id": "kvn-yonsei",
+          "name": "KVN Yonsei",
+          "latitude_deg": 37.564,
+          "longitude_deg": 126.941
+        },
+        {
+          "id": "kvn-ulsan",
+          "name": "KVN Ulsan",
+          "latitude_deg": 35.546,
+          "longitude_deg": 129.25
+        },
+        {
+          "id": "kvn-tamna",
+          "name": "KVN Tamna",
+          "latitude_deg": 33.289,
+          "longitude_deg": 126.462
+        },
+        {
+          "id": "kvn-pyeongchang",
+          "name": "KVN Pyeongchang",
+          "latitude_deg": 37.533,
+          "longitude_deg": 128.466
+        },
+        {
+          "id": "nobeyama",
+          "name": "Nobeyama",
+          "latitude_deg": 35.945,
+          "longitude_deg": 138.473
+        },
+        {
+          "id": "takahagi",
+          "name": "Takahagi",
+          "latitude_deg": 36.698,
+          "longitude_deg": 140.695
+        },
+        {
+          "id": "hitachi",
+          "name": "Hitachi",
+          "latitude_deg": 36.697,
+          "longitude_deg": 140.692
+        },
+        {
+          "id": "yamaguchi",
+          "name": "Yamaguchi",
+          "latitude_deg": 34.217,
+          "longitude_deg": 131.558
+        },
+        {
+          "id": "sejong",
+          "name": "Sejong",
+          "latitude_deg": 36.522,
+          "longitude_deg": 127.304
+        }
+      ],
+      "bands": [
+        {
+          "id": "0",
+          "label": "6.7 GHz",
+          "frequency_GHz": 6.7,
+          "resolution_arcsec": 0.004
+        },
+        {
+          "id": "1",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 0.0012
+        },
+        {
+          "id": "2",
+          "label": "43 GHz",
+          "frequency_GHz": 43,
+          "resolution_arcsec": 0.00063
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 132.0,
+        "reference": "22 GHz; selected subarray",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://kvn.kasi.re.kr/cfp_view.php?cate=eavn&id=54"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Illustrative station roster, not a guaranteed band-specific or semester-specific observing allocation.",
+        "Subset resolution is scaled by physical baseline extent; projection, weighting and uv coverage are not simulated."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "evn-europe",
+      "name": "EVN (Europe)",
+      "category": "real",
+      "antenna_count": 11,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "effelsberg",
+          "name": "Effelsberg",
+          "latitude_deg": 50.525,
+          "longitude_deg": 6.8836
+        },
+        {
+          "id": "jodrell-bank",
+          "name": "Jodrell Bank",
+          "latitude_deg": 53.236,
+          "longitude_deg": -2.307
+        },
+        {
+          "id": "cambridge",
+          "name": "Cambridge",
+          "latitude_deg": 52.167,
+          "longitude_deg": 0.038
+        },
+        {
+          "id": "westerbork",
+          "name": "Westerbork",
+          "latitude_deg": 52.915,
+          "longitude_deg": 6.604
+        },
+        {
+          "id": "medicina",
+          "name": "Medicina",
+          "latitude_deg": 44.521,
+          "longitude_deg": 11.647
+        },
+        {
+          "id": "noto",
+          "name": "Noto",
+          "latitude_deg": 36.877,
+          "longitude_deg": 14.989
+        },
+        {
+          "id": "onsala",
+          "name": "Onsala",
+          "latitude_deg": 57.395,
+          "longitude_deg": 11.925
+        },
+        {
+          "id": "torun",
+          "name": "Torun",
+          "latitude_deg": 53.095,
+          "longitude_deg": 18.564
+        },
+        {
+          "id": "yebes",
+          "name": "Yebes",
+          "latitude_deg": 40.524,
+          "longitude_deg": -3.087
+        },
+        {
+          "id": "sardinia",
+          "name": "Sardinia",
+          "latitude_deg": 39.493,
+          "longitude_deg": 9.245
+        },
+        {
+          "id": "irbene",
+          "name": "Irbene",
+          "latitude_deg": 57.553,
+          "longitude_deg": 21.854
+        }
+      ],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.6 GHz",
+          "frequency_GHz": 1.6,
+          "resolution_arcsec": 0.005
+        },
+        {
+          "id": "1",
+          "label": "5 GHz",
+          "frequency_GHz": 5,
+          "resolution_arcsec": 0.0018
+        },
+        {
+          "id": "2",
+          "label": "8.4 GHz",
+          "frequency_GHz": 8.4,
+          "resolution_arcsec": 0.0012
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 37.6497011940334,
+        "reference": "1.6 GHz; scaled published achieved rms",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 1.6
+      },
+      "sources": [
+        "https://www.evlbi.org/capabilities"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Illustrative station roster, not a guaranteed band-specific or semester-specific observing allocation.",
+        "Subset resolution is scaled by physical baseline extent; projection, weighting and uv coverage are not simulated.",
+        "The earlier generic 12-antenna proxy is replaced by 11 explicitly named European sites."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "australian-lba",
+      "name": "Australian LBA",
+      "category": "real",
+      "antenna_count": 5,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "parkes",
+          "name": "Parkes",
+          "latitude_deg": -32.998,
+          "longitude_deg": 148.263
+        },
+        {
+          "id": "atca-phased",
+          "name": "ATCA phased",
+          "latitude_deg": -30.312,
+          "longitude_deg": 149.55
+        },
+        {
+          "id": "mopra",
+          "name": "Mopra",
+          "latitude_deg": -31.267,
+          "longitude_deg": 149.1
+        },
+        {
+          "id": "hobart",
+          "name": "Hobart",
+          "latitude_deg": -42.805,
+          "longitude_deg": 147.439
+        },
+        {
+          "id": "ceduna",
+          "name": "Ceduna",
+          "latitude_deg": -31.867,
+          "longitude_deg": 133.81
+        }
+      ],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.4 GHz",
+          "frequency_GHz": 1.4,
+          "resolution_arcsec": 0.02
+        },
+        {
+          "id": "1",
+          "label": "8.4 GHz",
+          "frequency_GHz": 8.4,
+          "resolution_arcsec": 0.004
+        },
+        {
+          "id": "2",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 0.0015
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 35.0,
+        "reference": "8.4 GHz; historical",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://www.atnf.csiro.au/vlbi/LBA-Novices-Manual-v1.5.pdf"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Illustrative station roster, not a guaranteed band-specific or semester-specific observing allocation.",
+        "Subset resolution is scaled by physical baseline extent; projection, weighting and uv coverage are not simulated."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "alma-c-10-extended",
+      "name": "ALMA C-10 (extended)",
+      "category": "real",
+      "antenna_count": 43,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -23.03,
+        "longitude_deg": -67.75
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "Band 1",
+          "frequency_GHz": 42.5,
+          "resolution_arcsec": 0.12697164765394864
+        },
+        {
+          "id": "1",
+          "label": "Band 2",
+          "frequency_GHz": 91.5,
+          "resolution_arcsec": 0.058925248379053864
+        },
+        {
+          "id": "2",
+          "label": "Band 3",
+          "frequency_GHz": 100.0,
+          "resolution_arcsec": 0.053916602266834285
+        },
+        {
+          "id": "3",
+          "label": "Band 4",
+          "frequency_GHz": 144.0,
+          "resolution_arcsec": 0.03744208490752381
+        },
+        {
+          "id": "4",
+          "label": "Band 5",
+          "frequency_GHz": 187.0,
+          "resolution_arcsec": 0.02914673983520218
+        },
+        {
+          "id": "5",
+          "label": "Band 6",
+          "frequency_GHz": 243.0,
+          "resolution_arcsec": 0.022197440838670552
+        },
+        {
+          "id": "6",
+          "label": "Band 7",
+          "frequency_GHz": 324.0,
+          "resolution_arcsec": 0.01700372901488149
+        },
+        {
+          "id": "7",
+          "label": "Band 8",
+          "frequency_GHz": 442.5,
+          "resolution_arcsec": 0.011943497479807878
+        },
+        {
+          "id": "8",
+          "label": "Band 9",
+          "frequency_GHz": 661.0,
+          "resolution_arcsec": 0.008147052868493305
+        },
+        {
+          "id": "9",
+          "label": "Band 10",
+          "frequency_GHz": 868.5,
+          "resolution_arcsec": 0.006250969838934136
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 10.6,
+        "reference": "Band 3; primer",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://almascience.nao.ac.jp/proposing/proposers-guide"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "ska-mid-aa4",
+      "name": "SKA-Mid AA4",
+      "category": "future",
+      "antenna_count": 197,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -30.71,
+        "longitude_deg": 21.443
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "0.7 GHz",
+          "frequency_GHz": 0.7,
+          "resolution_arcsec": 0.27
+        },
+        {
+          "id": "1",
+          "label": "1.4 GHz",
+          "frequency_GHz": 1.4,
+          "resolution_arcsec": 0.13
+        },
+        {
+          "id": "2",
+          "label": "5 GHz",
+          "frequency_GHz": 5,
+          "resolution_arcsec": 0.037
+        },
+        {
+          "id": "3",
+          "label": "10 GHz",
+          "frequency_GHz": 10,
+          "resolution_arcsec": 0.019
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 2.0,
+        "reference": "1.4 GHz; design reference",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://www.skao.int/en/science-users/SKA%20Telescope%20Specifications%20Overview"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Antenna-count proxy is an upper bound in receiver bands not fitted to MeerKAT."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "emerlin",
+      "name": "eMERLIN",
+      "category": "real",
+      "antenna_count": 7,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 53.2,
+        "longitude_deg": -2.307
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.5 GHz",
+          "frequency_GHz": 1.5,
+          "resolution_arcsec": 0.15
+        },
+        {
+          "id": "1",
+          "label": "5 GHz",
+          "frequency_GHz": 5,
+          "resolution_arcsec": 0.045
+        },
+        {
+          "id": "2",
+          "label": "6.7 GHz",
+          "frequency_GHz": 6.7,
+          "resolution_arcsec": 0.035
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 35.0,
+        "reference": "L; with Lovell",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://www.e-merlin.ac.uk/observe.html"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "jvla-a",
+      "name": "JVLA A",
+      "category": "real",
+      "antenna_count": 27,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 34.08,
+        "longitude_deg": -107.618
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.5 GHz",
+          "frequency_GHz": 1.5,
+          "resolution_arcsec": 1.3
+        },
+        {
+          "id": "1",
+          "label": "3 GHz",
+          "frequency_GHz": 3,
+          "resolution_arcsec": 0.65
+        },
+        {
+          "id": "2",
+          "label": "6 GHz",
+          "frequency_GHz": 6,
+          "resolution_arcsec": 0.32
+        },
+        {
+          "id": "3",
+          "label": "10 GHz",
+          "frequency_GHz": 10,
+          "resolution_arcsec": 0.19
+        },
+        {
+          "id": "4",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 0.09
+        },
+        {
+          "id": "5",
+          "label": "33 GHz",
+          "frequency_GHz": 33,
+          "resolution_arcsec": 0.06
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 6.4,
+        "reference": "L; ideal thermal",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://science.nrao.edu/facilities/vla/docs/manuals/oss2024A/performance/sensitivity"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "ska-mid-aa-star",
+      "name": "SKA-Mid AA* (exclude 108 km outlier)",
+      "category": "future",
+      "antenna_count": 143,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -30.71,
+        "longitude_deg": 21.443
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "0.7 GHz",
+          "frequency_GHz": 0.7,
+          "resolution_arcsec": 1.19
+        },
+        {
+          "id": "1",
+          "label": "1.4 GHz",
+          "frequency_GHz": 1.4,
+          "resolution_arcsec": 0.6
+        },
+        {
+          "id": "2",
+          "label": "5 GHz",
+          "frequency_GHz": 5,
+          "resolution_arcsec": 0.17
+        },
+        {
+          "id": "3",
+          "label": "10 GHz",
+          "frequency_GHz": 10,
+          "resolution_arcsec": 0.083
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 2.88,
+        "reference": "1.4 GHz; approximate scaling",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://www.skao.int/en/science-users/SKA%20Telescope%20Specifications%20Overview"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Antenna-count proxy is an upper bound in receiver bands not fitted to MeerKAT."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "lofar-international",
+      "name": "LOFAR-International",
+      "category": "real",
+      "antenna_count": 52,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 52.92,
+        "longitude_deg": 6.87
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "LBA",
+          "frequency_GHz": 0.05,
+          "resolution_arcsec": 0.8099999999999999
+        },
+        {
+          "id": "1",
+          "label": "HBA",
+          "frequency_GHz": 0.175,
+          "resolution_arcsec": 0.23142857142857146
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 255.0,
+        "reference": "HBA; scaled achieved rms",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://science.astron.nl/telescopes/lofar/educational-resources/lofar-quick-start-guide/"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Visibility is screened at the Dutch core; international-station participation and frequency-dependent station beams are not modelled."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "alma-c-1-compact",
+      "name": "ALMA C-1 (compact)",
+      "category": "real",
+      "antenna_count": 43,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -23.03,
+        "longitude_deg": -67.75
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "Band 1",
+          "frequency_GHz": 42.5,
+          "resolution_arcsec": 7.5101636324029
+        },
+        {
+          "id": "1",
+          "label": "Band 2",
+          "frequency_GHz": 91.5,
+          "resolution_arcsec": 3.4893395448929705
+        },
+        {
+          "id": "2",
+          "label": "Band 3",
+          "frequency_GHz": 100.0,
+          "resolution_arcsec": 3.187742147665021
+        },
+        {
+          "id": "3",
+          "label": "Band 4",
+          "frequency_GHz": 144.0,
+          "resolution_arcsec": 2.2171845024840753
+        },
+        {
+          "id": "4",
+          "label": "Band 5",
+          "frequency_GHz": 187.0,
+          "resolution_arcsec": 1.7053388318242646
+        },
+        {
+          "id": "5",
+          "label": "Band 6",
+          "frequency_GHz": 243.0,
+          "resolution_arcsec": 1.3147864136502476
+        },
+        {
+          "id": "6",
+          "label": "Band 7",
+          "frequency_GHz": 324.0,
+          "resolution_arcsec": 0.9842483710766698
+        },
+        {
+          "id": "7",
+          "label": "Band 8",
+          "frequency_GHz": 442.5,
+          "resolution_arcsec": 0.7220183017333563
+        },
+        {
+          "id": "8",
+          "label": "Band 9",
+          "frequency_GHz": 661.0,
+          "resolution_arcsec": 0.481444150207617
+        },
+        {
+          "id": "9",
+          "label": "Band 10",
+          "frequency_GHz": 868.5,
+          "resolution_arcsec": 0.36532151525768813
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 10.6,
+        "reference": "Band 3; primer",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://almascience.nao.ac.jp/proposing/proposers-guide"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "atca-6km",
+      "name": "ATCA 6km",
+      "category": "real",
+      "antenna_count": 6,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -30.31,
+        "longitude_deg": 149.55
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.4 GHz",
+          "frequency_GHz": 1.4,
+          "resolution_arcsec": 7.0
+        },
+        {
+          "id": "1",
+          "label": "5.5 GHz",
+          "frequency_GHz": 5.5,
+          "resolution_arcsec": 1.8
+        },
+        {
+          "id": "2",
+          "label": "9 GHz",
+          "frequency_GHz": 9,
+          "resolution_arcsec": 1.1
+        },
+        {
+          "id": "3",
+          "label": "17 GHz",
+          "frequency_GHz": 17,
+          "resolution_arcsec": 0.6
+        },
+        {
+          "id": "4",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 0.45
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 31.0,
+        "reference": "2.1 GHz; example",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://academic.oup.com/mnras/article/416/2/832/1054363"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "jvla-d",
+      "name": "JVLA D",
+      "category": "real",
+      "antenna_count": 27,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 34.08,
+        "longitude_deg": -107.618
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.5 GHz",
+          "frequency_GHz": 1.5,
+          "resolution_arcsec": 45.0
+        },
+        {
+          "id": "1",
+          "label": "3 GHz",
+          "frequency_GHz": 3,
+          "resolution_arcsec": 23.0
+        },
+        {
+          "id": "2",
+          "label": "6 GHz",
+          "frequency_GHz": 6,
+          "resolution_arcsec": 12.0
+        },
+        {
+          "id": "3",
+          "label": "10 GHz",
+          "frequency_GHz": 10,
+          "resolution_arcsec": 7.0
+        },
+        {
+          "id": "4",
+          "label": "22 GHz",
+          "frequency_GHz": 22,
+          "resolution_arcsec": 3.0
+        },
+        {
+          "id": "5",
+          "label": "33 GHz",
+          "frequency_GHz": 33,
+          "resolution_arcsec": 2.0
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 6.4,
+        "reference": "L; ideal thermal",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://science.nrao.edu/facilities/vla/docs/manuals/oss2024A/performance/sensitivity"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "dsa",
+      "name": "DSA",
+      "category": "future",
+      "antenna_count": 1650,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 39.0,
+        "longitude_deg": -114.5
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "1.35 GHz",
+          "frequency_GHz": 1.35,
+          "resolution_arcsec": 3.0
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 0.6,
+        "reference": "full-band design",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://www.deepsynoptic.org/page/data-products"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "meerkat",
+      "name": "MeerKAT",
+      "category": "real",
+      "antenna_count": 64,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -30.71,
+        "longitude_deg": 21.443
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "UHF",
+          "frequency_GHz": 0.816,
+          "resolution_arcsec": 11.948529411764707
+        },
+        {
+          "id": "1",
+          "label": "L",
+          "frequency_GHz": 1.284,
+          "resolution_arcsec": 7.593457943925234
+        },
+        {
+          "id": "2",
+          "label": "S0",
+          "frequency_GHz": 2.1875,
+          "resolution_arcsec": 4.457142857142857
+        },
+        {
+          "id": "3",
+          "label": "S4",
+          "frequency_GHz": 3.0625,
+          "resolution_arcsec": 3.183673469387755
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 9.1,
+        "reference": "L; robust -0.5",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://skaafrica.atlassian.net/wiki/spaces/ESDKB/pages/1486750321/Sensitivity+calculators"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "lofar-nl",
+      "name": "LOFAR-NL",
+      "category": "real",
+      "antenna_count": 38,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 52.92,
+        "longitude_deg": 6.87
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "LBA",
+          "frequency_GHz": 0.05,
+          "resolution_arcsec": 17.999999999999996
+        },
+        {
+          "id": "1",
+          "label": "HBA",
+          "frequency_GHz": 0.175,
+          "resolution_arcsec": 5.142857142857142
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 280.0,
+        "reference": "HBA; scaled achieved rms",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://science.astron.nl/telescopes/lofar/educational-resources/lofar-quick-start-guide/"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation.",
+        "Visibility is screened at the Dutch core; international-station participation and frequency-dependent station beams are not modelled."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "ska-low-planned",
+      "name": "SKA-Low planned",
+      "category": "future",
+      "antenna_count": 257,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -26.7,
+        "longitude_deg": 116.67
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "0.15 GHz",
+          "frequency_GHz": 0.15,
+          "resolution_arcsec": 10.0
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 16.90145690470498,
+        "reference": "150 MHz; 257 stations; 45 MHz natural thermal",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 0.15
+      },
+      "sources": [
+        "https://www.skao.int/en/science-users/SKA%20Telescope%20Specifications%20Overview"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "askap",
+      "name": "ASKAP",
+      "category": "real",
+      "antenna_count": 36,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": -26.7,
+        "longitude_deg": 116.67
+      },
+      "stations": [],
+      "bands": [
+        {
+          "id": "0",
+          "label": "0.888 GHz",
+          "frequency_GHz": 0.888,
+          "resolution_arcsec": 12.0
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 87.0,
+        "reference": "944 MHz; survey-equivalent",
+        "provisional": false,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://arxiv.org/abs/2102.01870"
+      ],
+      "warnings": [
+        "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
+      ],
+      "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    }
+  ]
+}
