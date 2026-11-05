@@ -1,6 +1,6 @@
-import {defaults,evaluate,settings,numericRanges} from './core.mjs';
-import {renderSVG,escape,frequencyColor} from './render.mjs';
-const catalogue=await fetch('./data/facilities.json').then(r=>{if(!r.ok)throw Error('Catalogue failed to load');return r.json()});
+import {defaults,evaluate,settings,numericRanges,sortOptions} from './core.mjs?v=20261105-sorting';
+import {renderSVG,escape,frequencyColor} from './render.mjs?v=20261105-sorting';
+const catalogue=await fetch('./data/facilities.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Catalogue failed to load');return r.json()});
 const form=document.querySelector('form'),chart=document.querySelector('#chart');let result;
 const themeButton=document.querySelector('#theme-toggle');
 const currentTheme=()=>document.documentElement.dataset.theme==='dark'?'dark':'light';
@@ -9,26 +9,79 @@ function reflectTheme(){const dark=currentTheme()==='dark';themeButton.textConte
 themeButton.onclick=()=>{document.documentElement.dataset.theme=currentTheme()==='dark'?'light':'dark';try{localStorage.setItem('radio-array-theme',currentTheme());}catch{}reflectTheme();drawChart();};
 reflectTheme();
 const query=new URLSearchParams(location.search);
+let sortBy=Object.hasOwn(sortOptions,query.get('sortBy'))?query.get('sortBy'):'resolution';
+let sortDirection=['asc','desc'].includes(query.get('sortDirection'))?query.get('sortDirection'):sortOptions[sortBy].defaultDirection;
+function reflectSort(){
+ for(const button of document.querySelectorAll('[data-sort]')){
+  const active=button.dataset.sort===sortBy,option=sortOptions[button.dataset.sort];
+  button.setAttribute('aria-pressed',String(active));
+  button.textContent=option.label+(active?(sortDirection==='asc'?' ↑':' ↓'):' ↕');
+  button.title=active?`Reverse order: ${option[sortDirection==='asc'?'desc':'asc']}`:option[option.defaultDirection];
+ }
+ document.querySelector('#sort-description').textContent=sortOptions[sortBy][sortDirection]+(sortBy==='sensitivity'?'; unestimated entries stay last. Values are approximate; future arrays are projections.':'.');
+}
+document.querySelector('#sort-controls').onclick=e=>{
+ const button=e.target.closest('[data-sort]');if(!button)return;
+ if(sortBy===button.dataset.sort)sortDirection=sortDirection==='asc'?'desc':'asc';
+ else{sortBy=button.dataset.sort;sortDirection=sortOptions[sortBy].defaultDirection;}
+ reflectSort();update(true);
+};
+reflectSort();
 for(const [key,value] of Object.entries(defaults)){const input=form.elements[key];if(query.has(key)){if(input.type==='checkbox')input.checked=query.get(key)==='true';else input.value=query.get(key);}}
-function read(){return Object.fromEntries(Object.keys(defaults).map(k=>[k,form.elements[k].type==='checkbox'?form.elements[k].checked:form.elements[k].value]));}
+const arrayPanel=document.querySelector('#array-panel'),chooseArrays=document.querySelector('#choose-arrays');
+let selectionOpen=query.has('facilityIds');
+let chosenArrays=new Set((query.get('facilityIds')||'').split(',').filter(id=>catalogue.facilities.some(f=>f.id===id)));
+const arrayOptions=document.querySelector('#array-options');
+arrayOptions.innerHTML=[...catalogue.facilities].sort((a,b)=>a.name.localeCompare(b.name)).map(f=>`<label class="check array-choice"><input type="checkbox" value="${escape(f.id)}"><span>${escape(f.name)}<small>${escape(f.category)}${f.default_enabled===false?' · optional':''}</small></span></label>`).join('');
+function reflectSelection(){
+ arrayPanel.hidden=!selectionOpen;chooseArrays.setAttribute('aria-expanded',String(selectionOpen));
+ chooseArrays.textContent='Detailed array selection';
+ form.elements.includeFuture.disabled=selectionOpen;
+ for(const input of arrayOptions.querySelectorAll('input'))input.checked=chosenArrays.has(input.value);
+ document.querySelector('#selection-count').textContent=`${chosenArrays.size} selected`;
+}
+function closeSelection(){selectionOpen=false;reflectSelection();update(true);chooseArrays.focus();}
+chooseArrays.onclick=()=>{
+ if(selectionOpen){closeSelection();return;}
+ chosenArrays=new Set(catalogue.facilities.filter(f=>f.default_enabled!==false&&(form.elements.includeFuture.checked||f.category==='real')).map(f=>f.id));
+ selectionOpen=true;reflectSelection();update(true);
+};
+document.querySelector('#close-arrays').onclick=closeSelection;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&selectionOpen){e.preventDefault();closeSelection();}});
+arrayOptions.onchange=e=>{if(e.target.type!=='checkbox')return;if(e.target.checked)chosenArrays.add(e.target.value);else chosenArrays.delete(e.target.value);reflectSelection();update(true);};
+document.querySelector('#arrays-all').onclick=()=>{chosenArrays=new Set(catalogue.facilities.map(f=>f.id));reflectSelection();update(true);};
+document.querySelector('#include-selected-frequencies').onclick=()=>{
+ const frequencies=catalogue.facilities.filter(f=>chosenArrays.has(f.id)).flatMap(f=>f.bands.map(b=>b.frequency_GHz));
+ if(!frequencies.length)return;
+ form.elements.fmin.value=Math.min(Number(form.elements.fmin.value),...frequencies);
+ form.elements.fmax.value=Math.max(Number(form.elements.fmax.value),...frequencies);
+ update(true);
+};
+document.querySelector('#arrays-none').onclick=()=>{chosenArrays.clear();reflectSelection();update(true);};
+reflectSelection();
+function read(){return {...Object.fromEntries(Object.keys(defaults).map(k=>[k,form.elements[k].type==='checkbox'?form.elements[k].checked:form.elements[k].value])),sortBy,sortDirection};}
 for(const [key,[min,max]] of Object.entries(numericRanges)){form.elements[key].min=min;form.elements[key].max=max;}
 function update(commit=false){try{
  const values=read();
  if(!commit&&Object.keys(numericRanges).some(k=>values[k]===''))return;
- const s=settings(values);
+ const s=settings(selectionOpen?{...values,facilityIds:[...chosenArrays]}:values);
  if(commit)for(const key of Object.keys(numericRanges))form.elements[key].value=s[key];result=evaluate(catalogue,s);drawChart();
  document.querySelector('#error').textContent='';
+ const frequencyExcluded=result.excluded.filter(r=>r.exclusion_type==='frequency');
+ document.querySelector('#selection-frequency-notice').hidden=!selectionOpen||frequencyExcluded.length===0;
+ document.querySelector('#selection-frequency-message').textContent=`Not shown: ${frequencyExcluded.map(r=>r.name).join(', ')}. These selected arrays have no band within your ${s.fmin}–${s.fmax} GHz frequency range. Increase the maximum frequency or use the button below to include all selected frequencies.`;
  document.querySelector('#summary').textContent=`${result.rows.length} facilities / configurations`;
  document.querySelector('#constraint').textContent=s.allSky?'All-sky reference comparison · visibility screening off':`Dec ${s.declination>0?'+':''}${s.declination}° · ≥ ${s.elevation}° elevation · ≥ ${s.hours} continuous hour(s)`;
+ if(selectionOpen)document.querySelector('#constraint').textContent+=' · Individual array selection';
  document.querySelector('#unavailable summary').textContent=`${result.excluded.length} unavailable at these observing limits`;
  document.querySelector('#unavailable div').innerHTML=result.excluded.map(r=>`<p><strong>${escape(r.name)}</strong> — ${escape(r.exclusion_reason)}</p>`).join('');
  document.querySelector('#details').innerHTML='';
  const params=new URLSearchParams(Object.entries(s).map(([k,v])=>[k,String(v)]));history.replaceState(null,'',`${location.pathname}?${params}`);
  }catch(e){document.querySelector('#error').textContent=e.message;}}
 form.addEventListener('input',()=>update());form.addEventListener('change',()=>update(true));form.addEventListener('submit',e=>e.preventDefault());
-document.querySelector('#reset').onclick=()=>{for(const [k,v]of Object.entries(defaults)){const x=form.elements[k];if(x.type==='checkbox')x.checked=v;else x.value=v;}update(true);};
+document.querySelector('#reset').onclick=()=>{sortBy='resolution';sortDirection='asc';reflectSort();selectionOpen=false;reflectSelection();for(const [k,v]of Object.entries(defaults)){const x=form.elements[k];if(x.type==='checkbox')x.checked=v;else x.value=v;}update(true);};
 chart.addEventListener('click',e=>{const id=e.target.closest('[data-facility]')?.dataset.facility;if(!id)return;const r=result.rows.find(x=>x.id===id);const sens=r.rms_uJy==null?r.sensitivity_reason:`${r.rms_uJy.toPrecision(3)} µJy/beam in ${result.settings.hours} h; ${r.sensitivity.reference}.`;
- document.querySelector('#details').innerHTML=`<h2>${escape(r.name)} · ${r.category}</h2><p>${r.participating_antennas} participating antennas/stations; ${r.baselines} baselines. ${result.settings.allSky?'Visibility not screened.':`${r.visible_hours.toFixed(2)} h continuous common visibility.`}</p>${r.participating_stations.length?`<p>Stations: ${escape(r.participating_stations.join(', '))}.</p>`:''}<p>Sensitivity: ${escape(sens)}</p><p>${r.bands.map(b=>`${escape(b.label)}: ${b.frequency_GHz} GHz / ${b.resolution_arcsec.toPrecision(3)}″`).join(' · ')}</p>${r.warnings.map(w=>`<p>${escape(w)}</p>`).join('')}<p>References: ${r.sources.map((u,i)=>`<a href="${escape(u)}" target="_blank" rel="noopener">Source ${i+1}</a>`).join(' · ')}</p>`;
+ document.querySelector('#details').innerHTML=`<h2>${escape(r.name)} · ${r.category}</h2><p>${r.participating_antennas} participating antennas/stations; ${r.baselines} baselines. ${result.settings.allSky?'Visibility not screened.':`${r.visible_hours.toFixed(2)} h continuous common visibility above ${r.effective_elevation_deg}°.`}</p>${r.participating_stations.length?`<p>Stations: ${escape(r.participating_stations.join(', '))}.</p>`:''}<p>Sensitivity: ${escape(sens)}</p><p>${r.bands.map(b=>`${escape(b.label)}: ${b.frequency_GHz} GHz / ${b.resolution_arcsec.toPrecision(3)}″`).join(' · ')}</p>${r.warnings.map(w=>`<p>${escape(w)}</p>`).join('')}${r.excluded_bands?.length?`<p>Unavailable bands: ${r.excluded_bands.map(b=>`${escape(b.label)} — ${escape(b.reason)}`).join('; ')}</p>`:''}<p>References: ${r.sources.map((u,i)=>`<a href="${escape(u)}" target="_blank" rel="noopener">Source ${i+1}</a>`).join(' · ')}</p>`;
 });
 function save(content,type,name){const u=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 document.querySelector('#svg').onclick=()=>save(renderSVG(result,currentTheme()),'image/svg+xml','radio-array-explorer.svg');

@@ -39,7 +39,11 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
             ax.scatter(beam, y, c=[f], cmap='turbo', norm=LogNorm(.05, 1000), s=68,
                        edgecolor='black', linewidth=.4, zorder=3)
             ax.plot([beam, beam], [y-.18, y+.18], color='black', lw=1)
-    ax.set(xscale='log', xlim=(.0001,100), ylim=(len(data)-.3,-.7))
+    coarsest=max([100]+[b['resolution_arcsec'] for r in data for b in r['bands']])
+    max_scale=10**np.ceil(np.log10(coarsest))
+    finest=min([.0001]+[b['resolution_arcsec'] for r in data for b in r['bands']])
+    min_scale=10**np.floor(np.log10(finest))
+    ax.set(xscale='log', xlim=(min_scale,max_scale), ylim=(len(data)-.3,-.7))
     ax.set_yticks(ys, [r['name']+(' *' if r['subset'] else '') for r in data])
     ax.set_xlabel('Nominal angular resolution (arcsec; smaller = finer detail)')
     motion = settings['properMotion']/1000
@@ -48,7 +52,7 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     ta.set_xticks([.01,.1,1,10,100,1000], ['0.01','0.1','1','10','100','1000'])
     ta.set_xlabel(f"Time to reach angular scale (days) at {settings['properMotion']:g} mas/day",fontsize=10)
     ax.grid(axis='x',which='both',alpha=.25)
-    ax.set_title('Major radio facilities ranked by angular resolution',fontsize=14)
+    ax.set_title(result['ordering']['title'],fontsize=14)
     aq.set(xscale='log',xlim=(.6,1e7),ylim=ax.get_ylim(),yticks=[])
     aq.set_title('Proxy for image quality\nN_antennas²',fontsize=10)
     for y,r in zip(ys,data):
@@ -71,7 +75,7 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
           'Hatched sensitivity bars are provisional. Noise is thermal-equivalent; no calibration/confusion floor. Planned facilities are projections.\n'
           '* Station subset: nominal beams scaled by physical baseline extent, not projected beam synthesis. Subset sensitivity is not estimated.\n')
     if dec is not None:
-        note+=f"Dec {dec:+g}°: ≥{settings['hours']:g} continuous h above {settings['elevation']:g}°; VLBI needs ≥3 simultaneous stations. LOFAR International uses Dutch-core screening."
+        note+=f"Dec {dec:+g}°: ≥{settings['hours']:g} continuous h above {settings['elevation']:g}°; VLBI needs ≥3 simultaneous stations. FAST Core Array enforces ≥50°; LOFAR International uses Dutch-core screening."
     else:
         note+='All-sky reference: visibility screening off. See web interface for sources and assumptions.'
     fig.text(.02,.015,note,fontsize=8)

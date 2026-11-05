@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "data_version": "2026-11-04.1",
-  "reviewed_on": "2026-11-04",
+  "data_version": "2026-11-05.4",
+  "reviewed_on": "2026-11-05",
   "description": "Radio Array Explorer reference catalogue. Edit this file, not generated exports.",
   "methods": {
     "minimum_imaging_stations": 3,
@@ -1184,6 +1184,550 @@
         "Nominal beam from the preceding comparison; not a declination-dependent PSF simulation."
       ],
       "provenance": "Migrated from the November 4 standalone comparison; approximate unless documented otherwise."
+    },
+    {
+      "id": "allen-telescope-array",
+      "name": "Allen Telescope Array (ATA)",
+      "category": "real",
+      "antenna_count": 28,
+      "installed_antenna_count": 42,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 40.8175,
+        "longitude_deg": -121.47333333333333
+      },
+      "stations": [],
+      "maximum_baseline_m": 300,
+      "bands": [
+        {
+          "id": "l",
+          "label": "L",
+          "frequency_min_GHz": 1,
+          "frequency_max_GHz": 2,
+          "frequency_GHz": 1.5,
+          "resolution_arcsec": 137.41474058602392
+        },
+        {
+          "id": "s",
+          "label": "S",
+          "frequency_min_GHz": 2,
+          "frequency_max_GHz": 4,
+          "frequency_GHz": 3.0,
+          "resolution_arcsec": 68.70737029301196
+        },
+        {
+          "id": "c",
+          "label": "C",
+          "frequency_min_GHz": 4,
+          "frequency_max_GHz": 8,
+          "frequency_GHz": 6.0,
+          "resolution_arcsec": 34.35368514650598
+        },
+        {
+          "id": "x",
+          "label": "X",
+          "frequency_min_GHz": 8,
+          "frequency_max_GHz": 10,
+          "frequency_GHz": 9.0,
+          "resolution_arcsec": 22.902456764337323
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 130.3240740740741,
+        "reference": "~3 GHz; 28 active antennas; 672 MHz; two polarizations; thermal estimate from 272\u2013291 Jy array SEFD; not measured image rms",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 3.0,
+        "calculation": "Mean array SEFD 281.5 Jy / sqrt(2 * 672 MHz * 3600 s) * sqrt(28/27); ideal cross-correlation correction; no calibration, RFI or confusion losses."
+      },
+      "sources": [
+        "https://arxiv.org/html/2610.07065v1",
+        "https://www.seti.org/sites/default/files/2020-10/ATA%20Interface%20Document%20V1.2.pdf",
+        "https://www.seti.org/projects/ata/"
+      ],
+      "warnings": [
+        "Uses the 28 active, upgraded antennas reported in October 2026, from 42 installed. Backend/antenna availability for a particular imaging campaign must be checked.",
+        "The 1\u201310 GHz active range is divided into L (1\u20132), S (2\u20134), C (4\u20138) and truncated X (8\u201310) GHz intervals for display; these are not separate receivers. Arithmetic midpoints are plotted. Broader advertised feed coverage is not assumed here.",
+        "Nominal angular scale uses lambda / 300 m in radians. This is a baseline-based planning estimate, not a measured or projected synthesized FWHM; the elongated array gives an elliptical beam.",
+        "Sensitivity is a provisional ideal continuum imaging estimate from the published beamformed-array SEFD, using one 672 MHz tuning and two polarizations. It is not an achieved imaging rms or a SETI narrowband detection threshold.",
+        "Visibility uses the existing geometric elevation test at Hat Creek; local horizon masks and the 87-degree mechanical zenith limit are not modelled."
+      ],
+      "provenance": "Added 2026-11-05. Current active array/range/SEFD: Gerrard & Sheikh (2026), arXiv:2610.07065, sections 1.3, 2.1 and Table 2. Baseline and coordinates: ATA Interface Document v1.2 (2020)."
+    },
+    {
+      "id": "fast-core-array",
+      "name": "FAST Core Array",
+      "category": "future",
+      "antenna_count": 25,
+      "visibility_model": "representative-site",
+      "site": {
+        "latitude_deg": 25.65,
+        "longitude_deg": 106.86
+      },
+      "minimum_elevation_deg": 50,
+      "stations": [],
+      "maximum_baseline_m": 10000,
+      "bands": [
+        {
+          "id": "0",
+          "label": "0.35\u20131.05 GHz feed",
+          "frequency_min_GHz": 0.35,
+          "frequency_max_GHz": 1.05,
+          "frequency_GHz": 0.7,
+          "resolution_arcsec": 8.6
+        },
+        {
+          "id": "1",
+          "label": "1.1\u20133.3 GHz feed",
+          "frequency_min_GHz": 1.1,
+          "frequency_max_GHz": 3.3,
+          "frequency_GHz": 2.2,
+          "resolution_arcsec": 2.736363636363636
+        },
+        {
+          "id": "2",
+          "label": "3.3\u201310 GHz feed",
+          "frequency_min_GHz": 3.3,
+          "frequency_max_GHz": 10,
+          "frequency_GHz": 6.65,
+          "resolution_arcsec": 0.9052631578947368
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 0.5423701501880143,
+        "reference": "1.4 GHz; design Aeff/Tsys \u22483000 m\u00b2/K; assumed 400 MHz continuum bandwidth, two polarizations; ideal thermal estimate",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 1.4,
+        "calculation": "SEFD = 2 kB / (Aeff/Tsys) = 0.9204 Jy; rms = SEFD / sqrt(2 * 400 MHz * 3600 s). The 400 MHz usable bandwidth and unit efficiency are adopted planning assumptions, not a quoted achieved image rms."
+      },
+      "sources": [
+        "https://doi.org/10.61977/ati2024012"
+      ],
+      "source_document": "FASTarray.pdf",
+      "warnings": [
+        "Proposed full FAST Core Array from Jiang et al. (2024): one FAST telescope plus 24 new 40-m dishes. The six-dish precursor and larger FASTA concept are not this row.",
+        "The three receiver ranges are taken from Table 3. Markers use arithmetic midpoints 0.70, 2.20 and 6.65 GHz. Resolution scales as 1/frequency from Table 1: 4.3 arcsec at 1.4 GHz; these are nominal design scales, not projected beams.",
+        "FAST sets a 50-degree minimum elevation in section 2.2. The greater of this limit and the user-selected minimum is used for continuous visibility.",
+        "The ~3000 m\u00b2/K sensitivity is specified only at 1.4 GHz. The ~0.54 \u00b5Jy/beam one-hour reference assumes 400 MHz usable bandwidth and two polarizations, with no weighting, calibration or confusion losses; it is a provisional design estimate.",
+        "Full-array antenna count is an image-quality proxy. Table 3 specifies the secondary-dish feeds; FAST receiver availability and full-array participation across the whole proposed range require confirmation, particularly at high frequencies. A proposed FAST PAF covers 1\u20133 GHz."
+      ],
+      "provenance": "Added 2026-11-05 from user-provided FASTarray.pdf: Jiang et al. (2024), The FAST Core Array, DOI 10.61977/ati2024012; section 2.2, Tables 1\u20133, and section 3.3. Site coordinates rounded for planning."
+    },
+    {
+      "id": "eht",
+      "name": "EHT",
+      "category": "real",
+      "default_enabled": false,
+      "antenna_count": 11,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "alma",
+          "name": "ALMA (phased)",
+          "latitude_deg": -23.029,
+          "longitude_deg": -67.755
+        },
+        {
+          "id": "apex",
+          "name": "APEX",
+          "latitude_deg": -23.006,
+          "longitude_deg": -67.759
+        },
+        {
+          "id": "pv",
+          "name": "IRAM 30 m (Pico Veleta)",
+          "latitude_deg": 37.066,
+          "longitude_deg": -3.392
+        },
+        {
+          "id": "noema",
+          "name": "NOEMA (phased)",
+          "latitude_deg": 44.634,
+          "longitude_deg": 5.908
+        },
+        {
+          "id": "lmt",
+          "name": "LMT",
+          "latitude_deg": 18.985,
+          "longitude_deg": -97.315
+        },
+        {
+          "id": "glt",
+          "name": "Greenland Telescope",
+          "latitude_deg": 76.536,
+          "longitude_deg": -68.696
+        },
+        {
+          "id": "sma",
+          "name": "SMA (phased)",
+          "latitude_deg": 19.824,
+          "longitude_deg": -155.478
+        },
+        {
+          "id": "jcmt",
+          "name": "JCMT",
+          "latitude_deg": 19.823,
+          "longitude_deg": -155.477
+        },
+        {
+          "id": "smt",
+          "name": "SMT",
+          "latitude_deg": 32.701,
+          "longitude_deg": -109.892
+        },
+        {
+          "id": "kp12",
+          "name": "Kitt Peak 12 m",
+          "latitude_deg": 31.953,
+          "longitude_deg": -111.615
+        },
+        {
+          "id": "spt",
+          "name": "South Pole Telescope",
+          "latitude_deg": -90,
+          "longitude_deg": 0
+        }
+      ],
+      "bands": [
+        {
+          "id": "230",
+          "label": "230 GHz",
+          "frequency_GHz": 230,
+          "resolution_arcsec": 2.5e-05
+        },
+        {
+          "id": "345",
+          "label": "345 GHz (demonstration)",
+          "frequency_GHz": 345,
+          "resolution_arcsec": 1.9e-05,
+          "station_ids": [
+            "alma",
+            "apex",
+            "pv",
+            "noema",
+            "sma",
+            "glt"
+          ]
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": null,
+        "reference": "No comparable one-hour imaging rms adopted; requires band, station and weather assumptions.",
+        "provisional": true,
+        "exposure_scaling": "not-estimated",
+        "frequency_GHz": null
+      },
+      "sources": [
+        "https://eventhorizontelescope.org/array",
+        "https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-RA.2508-2022-PDF-E.pdf",
+        "https://arxiv.org/abs/2410.07453"
+      ],
+      "warnings": [
+        "Optional facility: excluded from all default comparisons and from initial detailed selections. Select explicitly to include.",
+        "Rounded illustrative station roster, not a guaranteed observing allocation. Phased arrays count as single VLBI stations in N\u00b2. Weather, phasing, fringe-detection limits and observing seasons are not simulated.",
+        "At a chosen declination, at least three stations must share one continuous hour above the elevation limit. Reduced-subset angular scales use physical baseline-extent ratios, not projected beam synthesis.",
+        "230 GHz marker is a nominal ~25 microarcsecond fringe spacing; 345 GHz is the demonstrated ~19 microarcsecond fringe spacing, not an assertion of routine full-array imaging. The 345 GHz mode uses only the six sites in the published demonstration.",
+        "N\u00b2 and station list describe the lowest-frequency displayed band with an accepted common visibility window. Other bands may use fewer stations; marker tooltips show their counts.",
+        "Sensitivity is not estimated: narrowband fringe detection and published reconstructed-image noise are not interchangeable with a one-hour image rms."
+      ],
+      "provenance": "Added 2026-11-05 using EHT station list, ITU-R RA.2508-0 and EHT Collaboration first 870-micron detections (2024). Rounded planning coordinates."
+    },
+    {
+      "id": "gmva",
+      "name": "GMVA",
+      "category": "real",
+      "default_enabled": false,
+      "antenna_count": 23,
+      "visibility_model": "station-network",
+      "site": null,
+      "stations": [
+        {
+          "id": "alma",
+          "name": "ALMA (phased)",
+          "latitude_deg": -23.029,
+          "longitude_deg": -67.755
+        },
+        {
+          "id": "apex",
+          "name": "APEX",
+          "latitude_deg": -23.006,
+          "longitude_deg": -67.759
+        },
+        {
+          "id": "pv",
+          "name": "IRAM 30 m (Pico Veleta)",
+          "latitude_deg": 37.066,
+          "longitude_deg": -3.392
+        },
+        {
+          "id": "noema",
+          "name": "NOEMA (phased)",
+          "latitude_deg": 44.634,
+          "longitude_deg": 5.908
+        },
+        {
+          "id": "lmt",
+          "name": "LMT",
+          "latitude_deg": 18.985,
+          "longitude_deg": -97.315
+        },
+        {
+          "id": "glt",
+          "name": "Greenland Telescope",
+          "latitude_deg": 76.536,
+          "longitude_deg": -68.696
+        },
+        {
+          "id": "north-liberty",
+          "name": "North Liberty",
+          "latitude_deg": 41.7714,
+          "longitude_deg": -91.5741
+        },
+        {
+          "id": "fort-davis",
+          "name": "Fort Davis",
+          "latitude_deg": 30.635,
+          "longitude_deg": -103.9448
+        },
+        {
+          "id": "los-alamos",
+          "name": "Los Alamos",
+          "latitude_deg": 35.7751,
+          "longitude_deg": -106.2456
+        },
+        {
+          "id": "pie-town",
+          "name": "Pie Town",
+          "latitude_deg": 34.301,
+          "longitude_deg": -108.1192
+        },
+        {
+          "id": "kitt-peak",
+          "name": "Kitt Peak",
+          "latitude_deg": 31.9563,
+          "longitude_deg": -111.6124
+        },
+        {
+          "id": "owens-valley",
+          "name": "Owens Valley",
+          "latitude_deg": 37.2317,
+          "longitude_deg": -118.277
+        },
+        {
+          "id": "brewster",
+          "name": "Brewster",
+          "latitude_deg": 48.1312,
+          "longitude_deg": -119.6833
+        },
+        {
+          "id": "mauna-kea",
+          "name": "Mauna Kea",
+          "latitude_deg": 19.8014,
+          "longitude_deg": -155.4555
+        },
+        {
+          "id": "gbt",
+          "name": "GBT",
+          "latitude_deg": 38.433,
+          "longitude_deg": -79.84
+        },
+        {
+          "id": "effelsberg",
+          "name": "Effelsberg",
+          "latitude_deg": 50.525,
+          "longitude_deg": 6.884
+        },
+        {
+          "id": "onsala",
+          "name": "Onsala",
+          "latitude_deg": 57.395,
+          "longitude_deg": 11.925
+        },
+        {
+          "id": "metsahovi",
+          "name": "Mets\u00e4hovi",
+          "latitude_deg": 60.218,
+          "longitude_deg": 24.393
+        },
+        {
+          "id": "yebes",
+          "name": "Yebes",
+          "latitude_deg": 40.524,
+          "longitude_deg": -3.087
+        },
+        {
+          "id": "kvn-yonsei",
+          "name": "KVN Yonsei",
+          "latitude_deg": 37.564,
+          "longitude_deg": 126.941
+        },
+        {
+          "id": "kvn-ulsan",
+          "name": "KVN Ulsan",
+          "latitude_deg": 35.546,
+          "longitude_deg": 129.25
+        },
+        {
+          "id": "kvn-tamna",
+          "name": "KVN Tamna",
+          "latitude_deg": 33.289,
+          "longitude_deg": 126.462
+        },
+        {
+          "id": "kvn-pyeongchang",
+          "name": "KVN Pyeongchang",
+          "latitude_deg": 37.533,
+          "longitude_deg": 128.466
+        }
+      ],
+      "bands": [
+        {
+          "id": "3mm",
+          "label": "3 mm (84\u201390 GHz common tuning)",
+          "frequency_min_GHz": 84,
+          "frequency_max_GHz": 90,
+          "frequency_GHz": 87,
+          "resolution_arcsec": 4.4482758620689656e-05
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 29,
+        "reference": "86 GHz; Europe + VLBA + GBT + phased ALMA; published ideal 1h array rms, 512 MHz; not the full illustrative roster.",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 86
+      },
+      "sources": [
+        "https://www3.mpifr-bonn.mpg.de/div/vlbi/globalmm/tech.html",
+        "https://www3.mpifr-bonn.mpg.de/div/vlbi/globalmm/sensi.html",
+        "https://science.nrao.edu/facilities/vlba/docs/manuals/oss2026b/vlba-plus/gmva"
+      ],
+      "warnings": [
+        "Optional facility: excluded from all default comparisons and from initial detailed selections. Select explicitly to include.",
+        "Rounded illustrative station roster, not a guaranteed observing allocation. Phased arrays count as single VLBI stations in N\u00b2. Weather, phasing, fringe-detection limits and observing seasons are not simulated.",
+        "At a chosen declination, at least three stations must share one continuous hour above the elevation limit. Reduced-subset angular scales use physical baseline-extent ratios, not projected beam synthesis.",
+        "The marker uses 87 GHz, the midpoint of the documented 84\u201390 GHz common tuning range. The usual continuum setup is near 86 GHz; the nominal 45 microarcsecond reference is scaled by 86/87.",
+        "Illustrative roster includes optional/best-effort ALMA, APEX, LMT and GLT, plus four KVN stations. Participation requires campaign-specific proposals and availability checks.",
+        "Published 29 \u00b5Jy/beam 1h reference applies to Europe + VLBA + GBT + ALMA under ideal conditions, not every station listed here. The reference is left unestimated whenever visibility removes stations. Typical duty cycle is ~0.5, so 1h on source needs ~2h scheduled."
+      ],
+      "provenance": "Added 2026-11-05 from MPIfR GMVA technical/sensitivity pages and NRAO 2026B GMVA status. Rounded planning coordinates."
+    },
+    {
+      "category": "real",
+      "default_enabled": true,
+      "visibility_model": "representative-site",
+      "stations": [],
+      "id": "wsrt",
+      "name": "WSRT (Westerbork)",
+      "antenna_count": 12,
+      "installed_antenna_count": 14,
+      "site": {
+        "latitude_deg": 52.915,
+        "longitude_deg": 6.604
+      },
+      "maximum_baseline_m": 2400,
+      "bands": [
+        {
+          "id": "apertif",
+          "label": "Apertif (1.13\u20131.75 GHz)",
+          "frequency_min_GHz": 1.13,
+          "frequency_max_GHz": 1.75,
+          "frequency_GHz": 1.44,
+          "resolution_arcsec": 13.333333333333334
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 122.4210561954111,
+        "reference": "Apertif DR1 ~1.36 GHz; 36.1 \u00b5Jy/beam outer-image median in 11.5 h, scaled to 1 h; historical achieved reference",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 1.36125
+      },
+      "sources": [
+        "https://science.astron.nl/telescopes/wsrt-apertif/",
+        "https://science.astron.nl/telescopes/wsrt-apertif/apertif-system-overview/",
+        "https://www.astron.nl/telescopes/wsrt-apertif/apertif-dr1-documentation/overview/apertif-and-imaging-survey-observations/",
+        "https://science.astron.nl/telescopes/wsrt-apertif/apertif-data-access/data-releases/apertif-dr1-2/"
+      ],
+      "warnings": [
+        "Real existing facility; this row uses the documented Apertif imaging reference. ASTRON describes Apertif survey operations as concluded after 2019\u20132022. Current observing availability must be checked; real does not guarantee this imaging mode can be scheduled.",
+        "Apertif uses 12 of 14 installed 25-m dishes, so the image-quality proxy uses N=12. Older multi-frequency WSRT receiver modes are not assumed to remain available.",
+        "1.44 GHz is the arithmetic midpoint of the Apertif tunable range 1.13\u20131.75 GHz; only 300 MHz is processed at once. Nominal minor-axis beam is scaled from the survey reference 15 arcsec at 1.28 GHz.",
+        "The east-west array produces an elliptical beam, approximately theta_minor by theta_minor/abs(sin(declination)); only its nominal minor-axis scale is plotted. Near the celestial equator the beam becomes highly elongated. No projected beam calculation is performed.",
+        "Sensitivity is a historical DR1 reference, scaled with sqrt(time). It is not an achieved one-hour observation, and calibration, RFI, field position and weighting affect actual rms."
+      ],
+      "provenance": "Added 2026-11-05 from ASTRON Apertif system overview, survey and DR1 documentation. Rounded WSRT site coordinates; nominal survey-beam scaling and achieved-noise exposure scaling."
+    },
+    {
+      "category": "real",
+      "default_enabled": true,
+      "visibility_model": "representative-site",
+      "stations": [],
+      "id": "gmrt",
+      "name": "GMRT (uGMRT)",
+      "antenna_count": 30,
+      "site": {
+        "latitude_deg": 19.0965,
+        "longitude_deg": 74.0497
+      },
+      "minimum_elevation_deg": 17,
+      "maximum_baseline_m": 25000,
+      "bands": [
+        {
+          "id": "band-2",
+          "label": "Band 2",
+          "frequency_min_GHz": 0.12,
+          "frequency_max_GHz": 0.25,
+          "frequency_GHz": 0.185,
+          "resolution_arcsec": 17.533783783783786
+        },
+        {
+          "id": "band-3",
+          "label": "Band 3",
+          "frequency_min_GHz": 0.25,
+          "frequency_max_GHz": 0.5,
+          "frequency_GHz": 0.375,
+          "resolution_arcsec": 8.3
+        },
+        {
+          "id": "band-4",
+          "label": "Band 4",
+          "frequency_min_GHz": 0.55,
+          "frequency_max_GHz": 0.85,
+          "frequency_GHz": 0.7,
+          "resolution_arcsec": 4.3
+        },
+        {
+          "id": "band-5",
+          "label": "Band 5",
+          "frequency_min_GHz": 1.0,
+          "frequency_max_GHz": 1.46,
+          "frequency_GHz": 1.23,
+          "resolution_arcsec": 2.3
+        }
+      ],
+      "sensitivity": {
+        "rms_1h_uJy": 8.969093963238231,
+        "reference": "700 MHz (Band 4); Tsys=100 K, gain=0.35 K/Jy, 30 antennas, 200 MHz, two polarizations; ideal thermal estimate with assumed efficiency 0.9",
+        "provisional": true,
+        "exposure_scaling": "thermal-equivalent",
+        "frequency_GHz": 0.7,
+        "calculation": "SEFD=Tsys/gain=285.7 Jy; image rms=SEFD / [0.9 sqrt(2 N(N-1) bandwidth time)]. Unit setup: 30 antennas, 200 MHz usable bandwidth, 3600 s. No RFI/calibration/confusion losses."
+      },
+      "sources": [
+        "https://www.gmrt.ncra.tifr.res.in/doc/GMRT_specs.pdf",
+        "https://www.ncra.tifr.res.in/gmrt/aboutgmrt/specification"
+      ],
+      "warnings": [
+        "Full upgraded GMRT reference: 30 antennas, not a guaranteed nightly count. The observatory targets at least 26 available antennas during maintenance.",
+        "Band ranges use the current status-document overview: 120\u2013250, 250\u2013500, 550\u2013850 and 1000\u20131460 MHz, with arithmetic midpoints 185, 375, 700 and 1230 MHz. Table 1 starts Band 2 at 125 MHz; its 17.3 arcsec beam at 187.5 MHz is scaled to 185 MHz here.",
+        "Nominal whole-array synthesized beams come from Table 1 of the status document. Actual beam shape depends on declination, available baselines and weighting. The compact central square is not a separate physically reconfigured array row.",
+        "Sensitivity is an ideal one-hour continuum estimate, not the deepest achieved rms values in Table 1, whose integration times are unspecified. Band-4 gain and Tsys are from Table 1; 200 MHz usable bandwidth, dual polarization and 0.9 efficiency are explicit assumptions.",
+        "The 17-degree software elevation limit is enforced when it exceeds the user-selected minimum."
+      ],
+      "provenance": "Added 2026-11-05 using NCRA GMRT System Parameters and Current Status dated 15 December 2025, overview and Table 1, plus the official antenna specification page. Rounded planning site coordinates."
     }
   ]
 }
