@@ -137,3 +137,29 @@ The provisional ~9 µJy/beam one-hour Band-4 sensitivity is calculated using
 100 K, 0.35 K/Jy, 200 MHz usable bandwidth, two polarizations, 30 antennas
 and an assumed efficiency of 0.9. Deepest achieved rms values in the source
 have unspecified exposure times and are not treated as one-hour estimates.
+
+## Optically thin synchrotron sensitivity weighting
+
+The optional `synchrotron: true` setting assumes S(nu) = S(1 GHz) *
+(nu / 1 GHz)^(-0.6). For an array's adopted sensitivity reference frequency,
+the equivalent 1 GHz source-flux threshold is:
+
+    sigma_equiv_1GHz = sigma_at_nu * (nu / 1 GHz)^(+0.6)
+
+The displayed sensitivity proxy and its ranking use this equivalent threshold;
+raw instrument rms remains unchanged in the evaluated data. High-frequency
+observations are penalised and low-frequency observations benefit for this
+assumed source spectrum. Missing rms or reference frequency stays unestimated.
+The button defaults off, restores raw values when switched off, and is saved
+in shared URLs and exports. Numeric sensitivity ticks and rms tooltips are
+hidden in weighted SVG/PNG and standalone figures. CSV/JSON retain labelled
+raw and weighted values for reproducibility.
+
+Each facility still has one representative sensitivity setup, rather than
+per-band rms predictions. Reference frequencies have been made explicit using
+the existing sensitivity notes: e.g. LOFAR HBA 144 MHz, MeerKAT L 1.284 GHz,
+VLA L 1.5 GHz and ALMA Band 3 100 GHz. DSA uses the 1.35 GHz band midpoint
+as an approximate effective frequency for its full-band forecast. Applying
+one power law across these frequencies is illustrative and does not account
+for self-absorption, spectral breaks, calibration floors or resolved-out flux.
+The jet/ejecta evolution model remains paused.

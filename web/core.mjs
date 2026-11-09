@@ -7,12 +7,17 @@ export const sortOptions={
  sensitivity:{label:'Sensitivity proxy',title:'sensitivity proxy',defaultDirection:'asc',asc:'Lowest rms (best sensitivity) first',desc:'Highest rms (weakest sensitivity) first'}
 };
 export function orderRows(rows,sortBy='resolution',direction='asc'){
- const value=r=>sortBy==='quality'?r.quality:sortBy==='sensitivity'?r.rms_uJy:Math.min(...r.bands.map(b=>b.resolution_arcsec));
+ const value=r=>sortBy==='quality'?r.quality:sortBy==='sensitivity'?(Object.hasOwn(r,'sensitivity_proxy_rms_uJy')?r.sensitivity_proxy_rms_uJy:r.rms_uJy):Math.min(...r.bands.map(b=>b.resolution_arcsec));
  return [...rows].sort((a,b)=>{
   const av=value(a),bv=value(b),am=av==null||!Number.isFinite(av),bm=bv==null||!Number.isFinite(bv);
   if(am!==bm)return am?1:-1;
   return (am?0:(av-bv)*(direction==='desc'?-1:1))||a.name.localeCompare(b.name);
  });
+}
+export function synchrotronEquivalentRms(rms,frequencyGHz){
+ if(rms==null||!Number.isFinite(rms)||rms<=0||!Number.isFinite(frequencyGHz)||frequencyGHz<=0)return null;
+ // S(nu)=S(1 GHz)*(nu/1 GHz)^(-0.6): the 1-GHz flux threshold is rms*nu^(+0.6).
+ return rms*Math.pow(frequencyGHz,.6);
 }
 const rad=x=>x*Math.PI/180;
 export function settings(input={}) {
@@ -22,6 +27,7 @@ export function settings(input={}) {
   s[k]=Number.isNaN(value)?defaults[k]:Math.max(lo,Math.min(hi,value));
  }
  s.fmin=Math.min(s.fmin,s.fmax);
+ s.synchrotron=input.synchrotron===true||input.synchrotron==='true';
  s.sortBy=Object.hasOwn(sortOptions,s.sortBy)?s.sortBy:'resolution';
  s.sortDirection=['asc','desc'].includes(s.sortDirection)?s.sortDirection:sortOptions[s.sortBy].defaultDirection;
  return s;
@@ -89,9 +95,11 @@ export function evaluate(catalogue,input={}) {
   }
   const missingRms=f.sensitivity.rms_1h_uJy==null;
   const rms=subset||missingRms?null:f.sensitivity.rms_1h_uJy/Math.sqrt(s.hours);
+  const weightedRms=synchrotronEquivalentRms(rms,f.sensitivity.frequency_GHz);
+  const proxyRms=s.synchrotron?weightedRms:rms;
   bands=bands.map(b=>({...b,time_days:travelDays(b.resolution_arcsec,s.properMotion)}));
-  const row={...f,bands,excluded_bands:bandExcluded,available:!reason,exclusion_reason:reason,visible_hours:d,effective_elevation_deg:effectiveElevation,participating_antennas:n,participating_stations:names,baselines:Math.max(0,n*(n-1)/2),quality:n*n,resolution_scale:scale,rms_uJy:rms,sensitivity_reason:subset?'Subset sensitivity requires station SEFDs; not estimated.':missingRms?f.sensitivity.reference:'Representative reference, thermal-equivalent exposure scaling.',subset};
+  const row={...f,bands,excluded_bands:bandExcluded,available:!reason,exclusion_reason:reason,visible_hours:d,effective_elevation_deg:effectiveElevation,participating_antennas:n,participating_stations:names,baselines:Math.max(0,n*(n-1)/2),quality:n*n,resolution_scale:scale,rms_uJy:rms,synchrotron_rms_1GHz_uJy:weightedRms,sensitivity_proxy_rms_uJy:proxyRms,sensitivity_reason:subset?'Subset sensitivity requires station SEFDs; not estimated.':missingRms?f.sensitivity.reference:'Representative reference, thermal-equivalent exposure scaling.',subset};
   (reason?excluded:included).push(row);
  }
- return {data_version:catalogue.data_version,settings:s,ordering:{title:`Major radio facilities ranked by ${sortOptions[s.sortBy].title}`,description:sortOptions[s.sortBy][s.sortDirection]},rows:orderRows(included,s.sortBy,s.sortDirection),excluded};
+ return {data_version:catalogue.data_version,settings:s,ordering:{title:`Major radio facilities ranked by ${s.synchrotron&&s.sortBy==='sensitivity'?'synchrotron-weighted sensitivity proxy':sortOptions[s.sortBy].title}`,description:s.synchrotron&&s.sortBy==='sensitivity'?(s.sortDirection==='asc'?'Best synchrotron-weighted sensitivity first':'Weakest synchrotron-weighted sensitivity first'):sortOptions[s.sortBy][s.sortDirection]},rows:orderRows(included,s.sortBy,s.sortDirection),excluded};
 }

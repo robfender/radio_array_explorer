@@ -61,14 +61,19 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     asen.set_title('Proxy for sensitivity',fontsize=10)
     asen.set(xscale='log',xlim=(10000,1/3),ylim=ax.get_ylim(),yticks=[])
     for y,r in zip(ys,data):
-        rms = r['rms_uJy']
+        rms = r['sensitivity_proxy_rms_uJy']
         if rms is None:
             asen.text(.5,y,'Not estimated',transform=asen.get_yaxis_transform(),ha='center',va='center',fontsize=7)
         else:
             asen.barh(y,rms-10000,left=10000,height=.38,color='#327d83',edgecolor='#245c60',linewidth=.4,
                       hatch='///' if r['sensitivity']['provisional'] else None)
-    asen.set_xticks([1000,100,10,1],['1000','100','10','1']);asen.grid(axis='x',alpha=.2)
-    asen.set_xlabel(f"{settings['hours']:g}-hour rms (µJy/beam)\nLower rms →",fontsize=9)
+    if settings['synchrotron']:
+        asen.set_xticks([])
+        asen.set_xlabel('Synchrotron-weighted proxy\n1 GHz reference; Sν ∝ ν⁻⁰·⁶',fontsize=9)
+    else:
+        asen.set_xticks([1000,100,10,1],['1000','100','10','1'])
+        asen.set_xlabel(f"{settings['hours']:g}-hour rms (µJy/beam)\nLower rms →",fontsize=9)
+    asen.grid(axis='x',alpha=.2)
     cb=fig.colorbar(ScalarMappable(norm=LogNorm(.05,1000),cmap='turbo'),ax=ax,pad=.02)
     cb.set_label('Observing frequency (GHz; log scale)')
     note=(f"Catalogue {result['data_version']}. N² is an approximate count proxy. Sensitivity uses one reference setup per array, not necessarily a plotted beam.\n"
@@ -85,10 +90,10 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     fig.savefig(str(out)+'.png',dpi=200);fig.savefig(str(out)+'.pdf');plt.close(fig)
     Path(str(out)+'.json').write_text(json.dumps(result,indent=2))
     with open(str(out)+'.csv','w') as file:
-        w=csv.writer(file);w.writerow(['array','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','antenna_count_squared','rms_uJy','exposure_hours'])
+        w=csv.writer(file);w.writerow(['array','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','antenna_count_squared','rms_uJy','exposure_hours','synchrotron_weighting','sensitivity_proxy_rms_uJy'])
         for r in data:
             for b in r['bands']:
-                w.writerow([r['name'],r['category'],b['frequency_GHz'],b['resolution_arcsec'],b['time_days'],r['participating_antennas'],r['baselines'],r['quality'],r['rms_uJy'],settings['hours']])
+                w.writerow([r['name'],r['category'],b['frequency_GHz'],b['resolution_arcsec'],b['time_days'],r['participating_antennas'],r['baselines'],r['quality'],r['rms_uJy'],settings['hours'],settings['synchrotron'],r['sensitivity_proxy_rms_uJy']])
     return result
 
 if __name__ == '__main__':

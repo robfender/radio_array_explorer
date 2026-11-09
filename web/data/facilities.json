@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "data_version": "2026-11-05.4",
+  "data_version": "2026-11-09.1",
   "reviewed_on": "2026-11-05",
   "description": "Radio Array Explorer reference catalogue. Edit this file, not generated exports.",
   "methods": {
@@ -110,7 +110,8 @@
         "reference": "1.4 GHz",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.4,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://science.nrao.edu/facilities/vlba/docs/manuals/oss/bands-perf"
@@ -234,7 +235,8 @@
         "reference": "22 GHz; selected subarray",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 22,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://kvn.kasi.re.kr/cfp_view.php?cate=eavn&id=54"
@@ -423,7 +425,8 @@
         "reference": "8.4 GHz; historical",
         "provisional": true,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 8.4,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://www.atnf.csiro.au/vlbi/LBA-Novices-Manual-v1.5.pdf"
@@ -513,7 +516,8 @@
         "reference": "Band 3; primer",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 100,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://almascience.nao.ac.jp/proposing/proposers-guide"
@@ -565,7 +569,8 @@
         "reference": "1.4 GHz; design reference",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.4,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://www.skao.int/en/science-users/SKA%20Telescope%20Specifications%20Overview"
@@ -612,7 +617,8 @@
         "reference": "L; with Lovell",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.5,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://www.e-merlin.ac.uk/observe.html"
@@ -676,7 +682,8 @@
         "reference": "L; ideal thermal",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.5,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://science.nrao.edu/facilities/vla/docs/manuals/oss2024A/performance/sensitivity"
@@ -728,7 +735,8 @@
         "reference": "1.4 GHz; approximate scaling",
         "provisional": true,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.4,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://www.skao.int/en/science-users/SKA%20Telescope%20Specifications%20Overview"
@@ -769,7 +777,8 @@
         "reference": "HBA; scaled achieved rms",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 0.144,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://science.astron.nl/telescopes/lofar/educational-resources/lofar-quick-start-guide/"
@@ -858,7 +867,8 @@
         "reference": "Band 3; primer",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 100,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://almascience.nao.ac.jp/proposing/proposers-guide"
@@ -916,7 +926,8 @@
         "reference": "2.1 GHz; example",
         "provisional": true,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 2.1,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://academic.oup.com/mnras/article/416/2/832/1054363"
@@ -980,7 +991,8 @@
         "reference": "L; ideal thermal",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.5,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://science.nrao.edu/facilities/vla/docs/manuals/oss2024A/performance/sensitivity"
@@ -1014,7 +1026,8 @@
         "reference": "full-band design",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.35,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup; independent of resolution-marker frequencies. DSA uses its 0.7\u20132.0 GHz midpoint as an approximate full-band effective frequency."
       },
       "sources": [
         "https://www.deepsynoptic.org/page/data-products"
@@ -1066,7 +1079,8 @@
         "reference": "L; robust -0.5",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 1.284,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://skaafrica.atlassian.net/wiki/spaces/ESDKB/pages/1486750321/Sensitivity+calculators"
@@ -1106,7 +1120,8 @@
         "reference": "HBA; scaled achieved rms",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 0.144,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://science.astron.nl/telescopes/lofar/educational-resources/lofar-quick-start-guide/"
@@ -1175,7 +1190,8 @@
         "reference": "944 MHz; survey-equivalent",
         "provisional": false,
         "exposure_scaling": "thermal-equivalent",
-        "frequency_GHz": null
+        "frequency_GHz": 0.944,
+        "frequency_basis": "Representative frequency of the adopted sensitivity setup, from the existing sensitivity reference notes; independent of resolution-marker frequencies."
       },
       "sources": [
         "https://arxiv.org/abs/2102.01870"

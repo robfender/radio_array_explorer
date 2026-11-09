@@ -117,3 +117,28 @@ test('ranking controls sort metrics in both directions and keep missing sensitiv
   if(sortBy==='sensitivity')assert.equal(result.rows.at(-1).id,'eht');
  }
 });
+
+test('synchrotron weighting converts to a 1 GHz flux threshold with the correct sign',async()=>{
+ const {synchrotronEquivalentRms}=await import('../web/core.mjs');
+ assert.equal(synchrotronEquivalentRms(10,1),10);
+ assert.ok(Math.abs(synchrotronEquivalentRms(10,10)-39.81071705534972)<1e-10);
+ assert.ok(Math.abs(synchrotronEquivalentRms(10,.1)-2.51188643150958)<1e-10);
+ assert.equal(synchrotronEquivalentRms(10,null),null);assert.equal(synchrotronEquivalentRms(null,1),null);
+ const raw=evaluate(cat,{allSky:true}),weighted=evaluate(cat,{allSky:true,synchrotron:true});
+ for(const r of weighted.rows){
+  const original=raw.rows.find(x=>x.id===r.id);assert.equal(r.rms_uJy,original.rms_uJy);assert.deepEqual(r.bands,original.bands);
+  assert.ok(r.sensitivity.frequency_GHz>0);assert.equal(r.sensitivity_proxy_rms_uJy,r.rms_uJy*r.sensitivity.frequency_GHz**.6);
+ }
+ const svg=renderSVG(weighted);assert.ok(svg.includes('Synchrotron-weighted proxy'));assert.ok(!svg.includes('µJy/beam'));
+ const sensitivityAxis=svg.match(/<g data-panel="sensitivity-axis">(.*?)<\/g>/s)[1];assert.ok(!sensitivityAxis.includes('<text'));
+ assert.ok(renderSVG(raw).includes('1-hour rms (µJy/beam)'));
+ assert.equal(settings({synchrotron:'false'}).synchrotron,false);assert.equal(settings({synchrotron:'true'}).synchrotron,true);
+});
+test('weighted sensitivity ranking and standalone evaluation match the plotted metric',()=>{
+ const input={allSky:true,synchrotron:true,sortBy:'sensitivity',facilityIds:['eht','dsa','gmrt','alma-c-1-compact']};
+ const r=evaluate(cat,input),cli=JSON.parse(execFileSync(process.execPath,['scripts/evaluate.mjs',JSON.stringify(input)],{encoding:'utf8'}));
+ assert.deepEqual(cli,r);assert.equal(r.rows.at(-1).id,'eht');assert.equal(r.rows.at(-1).sensitivity_proxy_rms_uJy,null);
+ for(let i=1;i<r.rows.length-1;i++)assert.ok(r.rows[i-1].sensitivity_proxy_rms_uJy<=r.rows[i].sensitivity_proxy_rms_uJy);
+ const missing=structuredClone(cat);missing.facilities.find(f=>f.id==='dsa').sensitivity.frequency_GHz=null;
+ const noReference=evaluate(missing,{allSky:true,synchrotron:true,facilityIds:['dsa']});assert.equal(noReference.rows[0].sensitivity_proxy_rms_uJy,null);
+});

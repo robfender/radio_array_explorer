@@ -42,3 +42,5 @@ header .expansion-note{font-size:13px;line-height:1.5;color:#9fb7ca;margin-top:1
 #sort-controls button{padding:10px 14px;font-weight:600}#sort-controls button[aria-pressed="true"]{background:#176d72;color:#fff;border-color:#176d72}
 #sort-description{font-size:11px;color:#64758a;line-height:1.5;margin:9px 0 4px}
 [data-theme="dark"] #sort-controls{border-color:#304358}[data-theme="dark"] #sort-controls button[aria-pressed="true"]{background:#59c3bc;color:#102b34;border-color:#59c3bc}[data-theme="dark"] #sort-description{color:#acbed2}
+
+#sensitivity-controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:14px 0 6px}#synchrotron-toggle{font-weight:600;padding:10px 14px;flex-shrink:0}#synchrotron-toggle[aria-pressed="true"]{background:#176d72;color:#fff;border-color:#176d72}#synchrotron-description{font-size:11px;line-height:1.6;margin:0;color:#64758a;flex:1;min-width:220px}[data-theme="dark"] #synchrotron-toggle[aria-pressed="true"]{background:#59c3bc;color:#102b34;border-color:#59c3bc}[data-theme="dark"] #synchrotron-description{color:#acbed2}
