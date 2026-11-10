@@ -3,11 +3,11 @@ export const defaults = {declination:40,elevation:20,hours:1,properMotion:20,inc
 export const numericRanges = {declination:[-90,90],elevation:[0,89],hours:[1,12],properMotion:[.001,10000],fmin:[.001,10000],fmax:[.001,10000]};
 export const sortOptions={
  resolution:{label:'Angular resolution',title:'angular resolution',defaultDirection:'asc',asc:'Finest plotted resolution first',desc:'Coarsest plotted resolution first'},
- quality:{label:'Image quality proxy',title:'image quality proxy',defaultDirection:'desc',asc:'Smallest antenna-count proxy first',desc:'Largest antenna-count proxy first'},
+ baselines:{label:'No. baselines',title:'number of baselines',defaultDirection:'desc',asc:'Fewest baselines first',desc:'Most baselines first'},
  sensitivity:{label:'Sensitivity proxy',title:'sensitivity proxy',defaultDirection:'asc',asc:'Lowest rms (best sensitivity) first',desc:'Highest rms (weakest sensitivity) first'}
 };
 export function orderRows(rows,sortBy='resolution',direction='asc'){
- const value=r=>sortBy==='quality'?r.quality:sortBy==='sensitivity'?(Object.hasOwn(r,'sensitivity_proxy_rms_uJy')?r.sensitivity_proxy_rms_uJy:r.rms_uJy):Math.min(...r.bands.map(b=>b.resolution_arcsec));
+ const value=r=>sortBy==='baselines'?r.baselines:sortBy==='sensitivity'?(Object.hasOwn(r,'sensitivity_proxy_rms_uJy')?r.sensitivity_proxy_rms_uJy:r.rms_uJy):Math.min(...r.bands.map(b=>b.resolution_arcsec));
  return [...rows].sort((a,b)=>{
   const av=value(a),bv=value(b),am=av==null||!Number.isFinite(av),bm=bv==null||!Number.isFinite(bv);
   if(am!==bm)return am?1:-1;
@@ -28,6 +28,7 @@ export function settings(input={}) {
  }
  s.fmin=Math.min(s.fmin,s.fmax);
  s.synchrotron=input.synchrotron===true||input.synchrotron==='true';
+ if(s.sortBy==='quality')s.sortBy='baselines'; // Preserve existing shared links.
  s.sortBy=Object.hasOwn(sortOptions,s.sortBy)?s.sortBy:'resolution';
  s.sortDirection=['asc','desc'].includes(s.sortDirection)?s.sortDirection:sortOptions[s.sortBy].defaultDirection;
  return s;
@@ -98,7 +99,7 @@ export function evaluate(catalogue,input={}) {
   const weightedRms=synchrotronEquivalentRms(rms,f.sensitivity.frequency_GHz);
   const proxyRms=s.synchrotron?weightedRms:rms;
   bands=bands.map(b=>({...b,time_days:travelDays(b.resolution_arcsec,s.properMotion)}));
-  const row={...f,bands,excluded_bands:bandExcluded,available:!reason,exclusion_reason:reason,visible_hours:d,effective_elevation_deg:effectiveElevation,participating_antennas:n,participating_stations:names,baselines:Math.max(0,n*(n-1)/2),quality:n*n,resolution_scale:scale,rms_uJy:rms,synchrotron_rms_1GHz_uJy:weightedRms,sensitivity_proxy_rms_uJy:proxyRms,sensitivity_reason:subset?'Subset sensitivity requires station SEFDs; not estimated.':missingRms?f.sensitivity.reference:'Representative reference, thermal-equivalent exposure scaling.',subset};
+  const row={...f,bands,excluded_bands:bandExcluded,available:!reason,exclusion_reason:reason,visible_hours:d,effective_elevation_deg:effectiveElevation,participating_antennas:n,participating_stations:names,baselines:Math.max(0,n*(n-1)/2),resolution_scale:scale,rms_uJy:rms,synchrotron_rms_1GHz_uJy:weightedRms,sensitivity_proxy_rms_uJy:proxyRms,sensitivity_reason:subset?'Subset sensitivity requires station SEFDs; not estimated.':missingRms?f.sensitivity.reference:'Representative reference, thermal-equivalent exposure scaling.',subset};
   (reason?excluded:included).push(row);
  }
  return {data_version:catalogue.data_version,settings:s,ordering:{title:`Major radio facilities ranked by ${s.synchrotron&&s.sortBy==='sensitivity'?'synchrotron-weighted sensitivity proxy':sortOptions[s.sortBy].title}`,description:s.synchrotron&&s.sortBy==='sensitivity'?(s.sortDirection==='asc'?'Best synchrotron-weighted sensitivity first':'Weakest synchrotron-weighted sensitivity first'):sortOptions[s.sortBy][s.sortDirection]},rows:orderRows(included,s.sortBy,s.sortDirection),excluded};

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "data_version": "2026-11-09.1",
+  "data_version": "2026-11-10.1",
   "reviewed_on": "2026-11-05",
   "description": "Radio Array Explorer reference catalogue. Edit this file, not generated exports.",
   "methods": {
@@ -1326,7 +1326,7 @@
         "The three receiver ranges are taken from Table 3. Markers use arithmetic midpoints 0.70, 2.20 and 6.65 GHz. Resolution scales as 1/frequency from Table 1: 4.3 arcsec at 1.4 GHz; these are nominal design scales, not projected beams.",
         "FAST sets a 50-degree minimum elevation in section 2.2. The greater of this limit and the user-selected minimum is used for continuous visibility.",
         "The ~3000 m\u00b2/K sensitivity is specified only at 1.4 GHz. The ~0.54 \u00b5Jy/beam one-hour reference assumes 400 MHz usable bandwidth and two polarizations, with no weighting, calibration or confusion losses; it is a provisional design estimate.",
-        "Full-array antenna count is an image-quality proxy. Table 3 specifies the secondary-dish feeds; FAST receiver availability and full-array participation across the whole proposed range require confirmation, particularly at high frequencies. A proposed FAST PAF covers 1\u20133 GHz."
+        "The full-array baseline count assumes all 25 antennas participate. Table 3 specifies the secondary-dish feeds; FAST receiver availability and full-array participation across the whole proposed range require confirmation, particularly at high frequencies. A proposed FAST PAF covers 1\u20133 GHz."
       ],
       "provenance": "Added 2026-11-05 from user-provided FASTarray.pdf: Jiang et al. (2024), The FAST Core Array, DOI 10.61977/ati2024012; section 2.2, Tables 1\u20133, and section 3.3. Site coordinates rounded for planning."
     },
@@ -1669,7 +1669,7 @@
       ],
       "warnings": [
         "Real existing facility; this row uses the documented Apertif imaging reference. ASTRON describes Apertif survey operations as concluded after 2019\u20132022. Current observing availability must be checked; real does not guarantee this imaging mode can be scheduled.",
-        "Apertif uses 12 of 14 installed 25-m dishes, so the image-quality proxy uses N=12. Older multi-frequency WSRT receiver modes are not assumed to remain available.",
+        "Apertif uses 12 of 14 installed 25-m dishes, so the baseline count uses N=12. Older multi-frequency WSRT receiver modes are not assumed to remain available.",
         "1.44 GHz is the arithmetic midpoint of the Apertif tunable range 1.13\u20131.75 GHz; only 300 MHz is processed at once. Nominal minor-axis beam is scaled from the survey reference 15 arcsec at 1.28 GHz.",
         "The east-west array produces an elliptical beam, approximately theta_minor by theta_minor/abs(sin(declination)); only its nominal minor-axis scale is plotted. Near the celestial equator the beam becomes highly elongated. No projected beam calculation is performed.",
         "Sensitivity is a historical DR1 reference, scaled with sqrt(time). It is not an achieved one-hour observation, and calibration, RFI, field position and weighting affect actual rms."

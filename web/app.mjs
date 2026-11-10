@@ -1,5 +1,5 @@
-import {defaults,evaluate,settings,numericRanges,sortOptions} from './core.mjs?v=20261109-synchrotron';
-import {renderSVG,escape,frequencyColor} from './render.mjs?v=20261109-synchrotron';
+import {defaults,evaluate,settings,numericRanges,sortOptions} from './core.mjs?v=20261110-baselines';
+import {renderSVG,escape,frequencyColor} from './render.mjs?v=20261110-baselines';
 const catalogue=await fetch('./data/facilities.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Catalogue failed to load');return r.json()});
 const form=document.querySelector('form'),chart=document.querySelector('#chart');let result;
 const themeButton=document.querySelector('#theme-toggle');
@@ -10,7 +10,7 @@ themeButton.onclick=()=>{document.documentElement.dataset.theme=currentTheme()==
 reflectTheme();
 const query=new URLSearchParams(location.search);
 let synchrotron=query.get('synchrotron')==='true';
-let sortBy=Object.hasOwn(sortOptions,query.get('sortBy'))?query.get('sortBy'):'resolution';
+let sortBy=settings({sortBy:query.get('sortBy')}).sortBy;
 let sortDirection=['asc','desc'].includes(query.get('sortDirection'))?query.get('sortDirection'):sortOptions[sortBy].defaultDirection;
 function reflectSort(){
  for(const button of document.querySelectorAll('[data-sort]')){
@@ -94,7 +94,7 @@ chart.addEventListener('click',e=>{const id=e.target.closest('[data-facility]')?
 });
 function save(content,type,name){const u=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 document.querySelector('#svg').onclick=()=>save(renderSVG(result,currentTheme()),'image/svg+xml','radio-array-explorer.svg');
-document.querySelector('#csv').onclick=()=>{const rows=[['catalogue_version','facility','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','N_squared','rms_uJy','exposure_hours','sensitivity_reference','sensitivity_frequency_GHz','synchrotron_weighting','equivalent_1GHz_rms_uJy','display_proxy_rms_uJy'],...result.rows.flatMap(r=>r.bands.map(b=>[result.data_version,r.name,r.category,b.frequency_GHz,b.resolution_arcsec,b.time_days,r.participating_antennas,r.baselines,r.quality,r.rms_uJy??'',result.settings.hours,r.sensitivity.reference,r.sensitivity.frequency_GHz??'',result.settings.synchrotron,r.synchrotron_rms_1GHz_uJy??'',r.sensitivity_proxy_rms_uJy??'']))];save(rows.map(row=>row.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv','radio-array-explorer.csv');};
+document.querySelector('#csv').onclick=()=>{const rows=[['catalogue_version','facility','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','rms_uJy','exposure_hours','sensitivity_reference','sensitivity_frequency_GHz','synchrotron_weighting','equivalent_1GHz_rms_uJy','display_proxy_rms_uJy'],...result.rows.flatMap(r=>r.bands.map(b=>[result.data_version,r.name,r.category,b.frequency_GHz,b.resolution_arcsec,b.time_days,r.participating_antennas,r.baselines,r.rms_uJy??'',result.settings.hours,r.sensitivity.reference,r.sensitivity.frequency_GHz??'',result.settings.synchrotron,r.synchrotron_rms_1GHz_uJy??'',r.sensitivity_proxy_rms_uJy??'']))];save(rows.map(row=>row.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv','radio-array-explorer.csv');};
 document.querySelector('#png').onclick=async()=>{const svg=renderSVG(result,currentTheme()),url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));try{const img=new Image();img.src=url;await img.decode();const c=document.createElement('canvas');c.width=img.width*2;c.height=img.height*2;c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(blob=>{if(blob)save(blob,'image/png','radio-array-explorer.png');});}finally{URL.revokeObjectURL(url);}};
 document.querySelector('#share').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);document.querySelector('#share').textContent='Link copied';setTimeout(()=>document.querySelector('#share').textContent='Copy link',2000);}catch{document.querySelector('#error').textContent='Copy the address from your browser to share these settings.';}};
 document.querySelector('#frequency-legend').innerHTML=[.05,.15,1,5,22,100,1000].map(f=>`<span><i class="swatch" style="background:${frequencyColor(f)}"></i>${f}</span>`).join('');

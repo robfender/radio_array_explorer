@@ -1,7 +1,7 @@
 # Radio Array Explorer
 
 Local interactive comparison of major radio facilities, with angular resolution,
-frequency, an antenna-count image-quality proxy and representative sensitivity.
+frequency, the number of baselines and representative sensitivity.
 Jet/ejecta modelling remains paused.
 
 ## Open the website
@@ -23,7 +23,7 @@ There is one calculation implementation: `web/core.mjs`. Both the browser and
 `make_plot.py` use it. Python calls `scripts/evaluate.mjs` through Node and draws
 the returned values; it contains no independent telescope catalogue or visibility
 rules. This covers filtering, ranking, continuous shared visibility, station
-subsets, N², sensitivity exposure scaling and proper-motion conversion.
+subsets, N(N−1)/2, sensitivity exposure scaling and proper-motion conversion.
 
 There are two presentation layers: the existing Matplotlib renderer and the web
 SVG renderer. They may differ in typography and colour palette, but their values
@@ -69,9 +69,9 @@ Nominal full-array beams and sensitivity references are inherited approximations
 and are not recalculated from those rosters. LOFAR International currently uses
 the Dutch core for visibility screening; it needs a station-level refinement.
 
-N² means antenna count squared, approximately proportional to baseline count,
-not baseline count squared. Frequency-dependent antenna participation and uv
-coverage are not captured by this proxy. SKA-Low N counts stations.
+The “No. baselines” panel counts unique antenna pairs as N(N−1)/2, where N
+is the participating antenna/station count. Frequency-dependent participation
+and uv coverage are incompletely modelled. SKA-Low N counts stations.
 
 Sensitivity is one representative reference per facility, which may differ from
 the resolution markers in frequency, weighting and participating stations. It is
@@ -108,7 +108,7 @@ the panel is an explicit choice to include optional facilities too.
 EHT has nominal 230 GHz and demonstration-only 345 GHz markers. The latter uses
 only the six stations in the published 870-micron demonstration. Network
 visibility is assessed separately for each band; a band without three stations
-sharing the required continuous interval is omitted. The count proxy describes
+sharing the required continuous interval is omitted. The baseline count describes
 the first surviving band; marker tooltips identify band-specific counts. EHT
 one-hour imaging sensitivity is unestimated. GMVA uses the midpoint (87 GHz)
 of the 84–90 GHz common tuning range, with its 86 GHz beam reference scaled

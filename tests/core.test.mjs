@@ -5,7 +5,7 @@ test('catalogue invariants and adopted bands',()=>{assert.equal(new Set(cat.faci
 test('visibility duration, poles and grazing boundaries',()=>{assert.ok(Math.abs(duration(0,0,0)-DAY/2)<1e-9);assert.equal(duration(90,40,20),DAY);assert.equal(duration(90,-40,20),0);assert.equal(duration(-30.71,40,20),0);assert.equal(duration(34.08,-40,20),0);});
 test('network requires simultaneous continuous time',()=>{const stations=[{name:'A',latitude_deg:0,longitude_deg:0},{name:'B',latitude_deg:0,longitude_deg:180}];assert.equal(networkWindow(stations,0,20,1).stations.length,1);const wrap=[{name:'A',latitude_deg:40,longitude_deg:1},{name:'B',latitude_deg:40,longitude_deg:-1}];assert.equal(networkWindow(wrap,40,20,1).stations.length,2);});
 test('practical north/south limits and future filter',()=>{const north=evaluate(cat,{declination:40});assert.ok(!north.rows.some(r=>r.name==='MeerKAT'));const south=evaluate(cat,{declination:-40});assert.ok(!south.rows.some(r=>r.name.startsWith('JVLA')));assert.ok(!south.rows.some(r=>r.name==='VLBA'));assert.ok(evaluate(cat,{includeFuture:false,allSky:true}).rows.every(r=>r.category==='real'));});
-test('rank, count, noise exposure and proper-motion conversion',()=>{const a=evaluate(cat,{allSky:true}),b=evaluate(cat,{allSky:true,hours:4});for(let i=1;i<a.rows.length;i++)assert.ok(Math.min(...a.rows[i-1].bands.map(x=>x.resolution_arcsec))<=Math.min(...a.rows[i].bands.map(x=>x.resolution_arcsec)));for(const r of a.rows){assert.equal(r.quality,r.participating_antennas**2);assert.equal(b.rows.find(x=>x.id===r.id).rms_uJy,r.rms_uJy/2);}assert.equal(travelDays(1,20),50);assert.equal(evaluate(cat,{properMotion:0}).settings.properMotion,.001);});
+test('rank, count, noise exposure and proper-motion conversion',()=>{const a=evaluate(cat,{allSky:true}),b=evaluate(cat,{allSky:true,hours:4});for(let i=1;i<a.rows.length;i++)assert.ok(Math.min(...a.rows[i-1].bands.map(x=>x.resolution_arcsec))<=Math.min(...a.rows[i].bands.map(x=>x.resolution_arcsec)));for(const r of a.rows){assert.equal(r.baselines,r.participating_antennas*(r.participating_antennas-1)/2);assert.equal(b.rows.find(x=>x.id===r.id).rms_uJy,r.rms_uJy/2);}assert.equal(travelDays(1,20),50);assert.equal(evaluate(cat,{properMotion:0}).settings.properMotion,.001);});
 test('standalone CLI and browser module agree exactly',()=>{for(const input of [{declination:40},{declination:-40,includeFuture:false},{allSky:true,properMotion:33,hours:2}]){const cli=JSON.parse(execFileSync(process.execPath,['scripts/evaluate.mjs',JSON.stringify(input)],{encoding:'utf8'}));assert.deepEqual(cli,evaluate(cat,input));assert.equal(renderSVG(cli),renderSVG(evaluate(cat,input)));}});
 
 test('numeric settings clamp bounds and recover incomplete entries',()=>{
@@ -29,7 +29,7 @@ test('ATA active array, band midpoints and declination limits',()=>{
  for(const b of f.bands)assert.equal(b.frequency_GHz,(b.frequency_min_GHz+b.frequency_max_GHz)/2);
  assert.ok(f.bands[0].resolution_arcsec>100);
  const north=evaluate(cat,{declination:40,includeFuture:false});
- const row=north.rows.find(r=>r.id===f.id);assert.equal(row.quality,28**2);
+ const row=north.rows.find(r=>r.id===f.id);assert.equal(row.baselines,378);
  assert.ok(row.rms_uJy>100&&row.rms_uJy<150);assert.equal(row.sensitivity.provisional,true);
  assert.ok(!evaluate(cat,{declination:-40}).rows.some(r=>r.id===f.id));
  assert.ok(renderSVG(north).includes('>1000</text>'));
@@ -42,7 +42,7 @@ test('FAST design bands, full array and instrument elevation limit',()=>{
  assert.equal(f.bands.length,3);
  for(const b of f.bands){assert.equal(b.frequency_GHz,(b.frequency_min_GHz+b.frequency_max_GHz)/2);assert.ok(Math.abs(b.resolution_arcsec*b.frequency_GHz-4.3*1.4)<1e-9);}
  const north=evaluate(cat,{declination:40});const r=north.rows.find(r=>r.id===f.id);
- assert.equal(r.quality,625);assert.equal(r.baselines,300);assert.equal(r.effective_elevation_deg,50);
+ assert.equal(r.baselines,300);assert.equal(r.effective_elevation_deg,50);
  assert.ok(r.rms_uJy>.5&&r.rms_uJy<.6);assert.equal(r.sensitivity.provisional,true);
  assert.ok(!evaluate(cat,{declination:-40}).rows.some(r=>r.id===f.id));
  // At -14 deg transit exceeds 50 deg, but the duration is below 1 h.
@@ -75,7 +75,7 @@ test('EHT and GMVA require explicit opt-in and disappear when selection closes',
  assert.equal(eht.rms_uJy,null);assert.equal(r.rows[1].rms_uJy,29);
  assert.ok(renderSVG(r).includes('>0.00001</text>'));
  const high=evaluate(cat,{allSky:true,facilityIds:['eht'],fmin:300});
- assert.equal(high.rows[0].participating_antennas,6);assert.equal(high.rows[0].quality,36);
+ assert.equal(high.rows[0].participating_antennas,6);assert.equal(high.rows[0].baselines,15);
  const north=evaluate(cat,{declination:40,facilityIds:['eht','gmva']});
  assert.ok(north.rows.length>0);for(const f of north.rows)assert.ok(f.visible_hours>=1);
  const cli=JSON.parse(execFileSync(process.execPath,['scripts/evaluate.mjs',JSON.stringify({allSky:true,facilityIds:['eht','gmva']})],{encoding:'utf8'}));assert.deepEqual(cli,r);
@@ -96,8 +96,8 @@ test('WSRT and uGMRT are default real arrays with midpoint frequencies and valid
   assert.ok(f.rms_uJy>0);assert.equal(f.sensitivity.provisional,true);
  }
  const wsrt=all.rows.find(f=>f.id==='wsrt'),gmrt=all.rows.find(f=>f.id==='gmrt');
- assert.equal(wsrt.participating_antennas,12);assert.equal(wsrt.quality,144);assert.equal(wsrt.bands.length,1);
- assert.equal(gmrt.participating_antennas,30);assert.equal(gmrt.quality,900);assert.equal(gmrt.bands.length,4);
+ assert.equal(wsrt.participating_antennas,12);assert.equal(wsrt.baselines,66);assert.equal(wsrt.bands.length,1);
+ assert.equal(gmrt.participating_antennas,30);assert.equal(gmrt.baselines,435);assert.equal(gmrt.bands.length,4);
  assert.ok(gmrt.rms_uJy>8&&gmrt.rms_uJy<10);
  assert.ok(!evaluate(cat,{declination:-40}).rows.some(f=>f.id==='wsrt'));
  assert.ok(evaluate(cat,{declination:-40}).rows.some(f=>f.id==='gmrt'));
@@ -105,12 +105,12 @@ test('WSRT and uGMRT are default real arrays with midpoint frequencies and valid
 });
 
 test('ranking controls sort metrics in both directions and keep missing sensitivity last',()=>{
- const rows=[{name:'B',quality:100,rms_uJy:10,bands:[{resolution_arcsec:1}]},{name:'A',quality:400,rms_uJy:2,bands:[{resolution_arcsec:.1}]},{name:'C',quality:10,rms_uJy:null,bands:[{resolution_arcsec:10}]}];
- for(const [key,asc,desc] of [['resolution',['A','B','C'],['C','B','A']],['quality',['C','B','A'],['A','B','C']],['sensitivity',['A','B','C'],['B','A','C']]]){
+ const rows=[{name:'B',baselines:100,rms_uJy:10,bands:[{resolution_arcsec:1}]},{name:'A',baselines:400,rms_uJy:2,bands:[{resolution_arcsec:.1}]},{name:'C',baselines:10,rms_uJy:null,bands:[{resolution_arcsec:10}]}];
+ for(const [key,asc,desc] of [['resolution',['A','B','C'],['C','B','A']],['baselines',['C','B','A'],['A','B','C']],['sensitivity',['A','B','C'],['B','A','C']]]){
   assert.deepEqual(orderRows(rows,key,'asc').map(r=>r.name),asc);assert.deepEqual(orderRows(rows,key,'desc').map(r=>r.name),desc);
  }
- assert.equal(settings({sortBy:'quality'}).sortDirection,'desc');assert.equal(settings({sortBy:'invalid',sortDirection:'invalid'}).sortBy,'resolution');
- for(const sortBy of ['resolution','quality','sensitivity'])for(const sortDirection of ['asc','desc']){
+ assert.equal(settings({sortBy:'baselines'}).sortDirection,'desc');assert.equal(settings({sortBy:'invalid',sortDirection:'invalid'}).sortBy,'resolution');
+ for(const sortBy of ['resolution','baselines','sensitivity'])for(const sortDirection of ['asc','desc']){
   const input={allSky:true,facilityIds:['eht','dsa','gmrt'],sortBy,sortDirection};
   const result=evaluate(cat,input),cli=JSON.parse(execFileSync(process.execPath,['scripts/evaluate.mjs',JSON.stringify(input)],{encoding:'utf8'}));
   assert.deepEqual(cli,result);assert.ok(renderSVG(result).includes(result.ordering.title));
@@ -141,4 +141,17 @@ test('weighted sensitivity ranking and standalone evaluation match the plotted m
  for(let i=1;i<r.rows.length-1;i++)assert.ok(r.rows[i-1].sensitivity_proxy_rms_uJy<=r.rows[i].sensitivity_proxy_rms_uJy);
  const missing=structuredClone(cat);missing.facilities.find(f=>f.id==='dsa').sensitivity.frequency_GHz=null;
  const noReference=evaluate(missing,{allSky:true,synchrotron:true,facilityIds:['dsa']});assert.equal(noReference.rows[0].sensitivity_proxy_rms_uJy,null);
+});
+
+
+test('baseline counts drive bar widths and legacy links use the new metric',()=>{
+ const result=evaluate(cat,{allSky:true,sortBy:'quality'});
+ assert.equal(result.settings.sortBy,'baselines');
+ const dsa=result.rows.find(r=>r.id==='dsa');assert.equal(dsa.baselines,1360425);
+ assert.ok(result.rows.every(r=>!Object.hasOwn(r,'quality')));
+ const svg=renderSVG(result);
+ assert.ok(svg.includes('No. baselines'));assert.doesNotMatch(svg,/image.?quality|N²|N_antennas/i);
+ const row=svg.match(/<g data-facility="dsa">(.*?)<\/g>/s)[1];
+ assert.ok(row.includes(`width="${Math.log10(dsa.baselines)/7*170}"`));
+ for(let i=1;i<result.rows.length;i++)assert.ok(result.rows[i-1].baselines>=result.rows[i].baselines);
 });

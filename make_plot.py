@@ -25,9 +25,9 @@ def selected(dec):
     return [(r['name'], [(b['frequency_GHz'], b['resolution_arcsec']) for b in r['bands']])
             for r in calculate(dec)['rows']]
 
-def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **options):
-    if metric != 'antennas':
-        raise ValueError('Image quality uses antenna count squared, not baseline count squared')
+def draw(dec, suffix, metric='baselines', category='all', output_dir=None, **options):
+    if metric not in {'baselines', 'antennas'}:
+        raise ValueError('The baseline count uses N(N-1)/2')
     result = calculate(dec, category, **options)
     data = result['rows']; settings = result['settings']
     fig, (ax, aq, asen) = plt.subplots(1, 3, figsize=(18, 9),
@@ -54,9 +54,9 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     ax.grid(axis='x',which='both',alpha=.25)
     ax.set_title(result['ordering']['title'],fontsize=14)
     aq.set(xscale='log',xlim=(.6,1e7),ylim=ax.get_ylim(),yticks=[])
-    aq.set_title('Proxy for image quality\nN_antennas²',fontsize=10)
+    aq.set_title('No. baselines',fontsize=10)
     for y,r in zip(ys,data):
-        aq.barh(y,r['quality']-.6,left=.6,height=.38,color='#64748b')
+        aq.barh(y,r['baselines']-.6,left=.6,height=.38,color='#64748b')
     aq.set_xticks([1,1e2,1e4,1e6]);aq.grid(axis='x',alpha=.2)
     asen.set_title('Proxy for sensitivity',fontsize=10)
     asen.set(xscale='log',xlim=(10000,1/3),ylim=ax.get_ylim(),yticks=[])
@@ -76,7 +76,7 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     asen.grid(axis='x',alpha=.2)
     cb=fig.colorbar(ScalarMappable(norm=LogNorm(.05,1000),cmap='turbo'),ax=ax,pad=.02)
     cb.set_label('Observing frequency (GHz; log scale)')
-    note=(f"Catalogue {result['data_version']}. N² is an approximate count proxy. Sensitivity uses one reference setup per array, not necessarily a plotted beam.\n"
+    note=(f"Catalogue {result['data_version']}. Baseline count is N(N-1)/2. Sensitivity uses one reference setup per array, not necessarily a plotted beam.\n"
           'Hatched sensitivity bars are provisional. Noise is thermal-equivalent; no calibration/confusion floor. Planned facilities are projections.\n'
           '* Station subset: nominal beams scaled by physical baseline extent, not projected beam synthesis. Subset sensitivity is not estimated.\n')
     if dec is not None:
@@ -90,10 +90,10 @@ def draw(dec, suffix, metric='antennas', category='all', output_dir=None, **opti
     fig.savefig(str(out)+'.png',dpi=200);fig.savefig(str(out)+'.pdf');plt.close(fig)
     Path(str(out)+'.json').write_text(json.dumps(result,indent=2))
     with open(str(out)+'.csv','w') as file:
-        w=csv.writer(file);w.writerow(['array','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','antenna_count_squared','rms_uJy','exposure_hours','synchrotron_weighting','sensitivity_proxy_rms_uJy'])
+        w=csv.writer(file);w.writerow(['array','category','frequency_GHz','resolution_arcsec','time_days','antennas','baselines','rms_uJy','exposure_hours','synchrotron_weighting','sensitivity_proxy_rms_uJy'])
         for r in data:
             for b in r['bands']:
-                w.writerow([r['name'],r['category'],b['frequency_GHz'],b['resolution_arcsec'],b['time_days'],r['participating_antennas'],r['baselines'],r['quality'],r['rms_uJy'],settings['hours'],settings['synchrotron'],r['sensitivity_proxy_rms_uJy']])
+                w.writerow([r['name'],r['category'],b['frequency_GHz'],b['resolution_arcsec'],b['time_days'],r['participating_antennas'],r['baselines'],r['rms_uJy'],settings['hours'],settings['synchrotron'],r['sensitivity_proxy_rms_uJy']])
     return result
 
 if __name__ == '__main__':
